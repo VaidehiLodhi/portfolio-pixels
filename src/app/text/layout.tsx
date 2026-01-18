@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { cn } from "@/lib/utils";
 import { TextMarquee } from "@/components/text-marquee";
 
@@ -32,7 +32,10 @@ export default function RootLayout({
           "bg-[#DF4346]"
         )}
       >
-        <main>{children}</main>
+        <div className="mb-10">
+          <TextMarquee />
+        </div>
+        {children}
       </body>
     </html>
   );
