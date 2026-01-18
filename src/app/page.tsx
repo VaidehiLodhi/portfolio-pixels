@@ -1,65 +1,136 @@
-import Image from "next/image";
+"use client";
+import { useRef, useState } from "react";
+import { PunchPaperRed } from "@/components/punch-paper-red";
+import { PunchPaperWhite } from "@/components/punch-paper-white";
+import gsap from "gsap";
+
+type cardId = "red" | "white";
 
 export default function Home() {
+  const whiteRef = useRef<HTMLDivElement | null>(null);
+  const redRef = useRef<HTMLDivElement | null>(null);
+  const isAnimating = useRef(false);
+
+  const [stack, setStack] = useState<cardId[]>(["red", "white"]);
+
+  const pageRefs = {
+    red: redRef,
+    white: whiteRef,
+  };
+
+  const getZIndex = (id: cardId) => {
+    const index = stack.indexOf(id);
+    return 2 - index;
+  };
+
+  function handlePageClick(cid: cardId) {
+    if (isAnimating.current) return;
+    if (stack[0] === cid) return;
+
+    const nextStack = [cid, ...stack.filter((id) => id !== cid)];
+
+    playStackAnimation(cid, nextStack);
+  }
+
+  const playStackAnimation = (moving: cardId, nextStack: cardId[]) => {
+    isAnimating.current = true;
+
+    const movingRef = pageRefs[moving].current;
+    if (!movingRef) {
+      isAnimating.current = false;
+      return;
+    }
+
+    const contentRef = movingRef.querySelector(
+      "[data-page-content]"
+    ) as HTMLElement;
+    if (!contentRef) {
+      isAnimating.current = false;
+      return;
+    }
+
+    gsap
+      .timeline({
+        onComplete: () => {
+          setStack(nextStack);
+          isAnimating.current = false;
+        },
+      })
+      .to(contentRef, {
+        y: "-150vh",
+        rotation: -15,
+        duration: 0.5,
+        ease: "power2.in",
+      })
+      .call(() => {
+        setStack(nextStack);
+      })
+      .fromTo(
+        contentRef,
+        {
+          y: "150vh",
+          rotation: 15,
+        },
+        {
+          y: "0vh",
+          rotation: 0,
+          duration: 0.6,
+          ease: "power1.out",
+          immediateRender: false,
+        }
+      );
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen flex items-center justify-center p-10 font-sans">
+      <div className="relative grid grid-cols-1 md:grid-cols-12 md:gap-x-20 md:px-20 w-full min-h-screen">
+        {/* RED LAYER */}
+        <div
+          ref={pageRefs.red}
+          className="col-start-1 md:col-span-8 md:col-start-4 row-start-1 relative w-full min-h-screen pointer-events-none"
+          style={{ zIndex: getZIndex("red") }}
+        >
+          <div
+            className="pt-[40vh] md:pt-[20vh] pb-[20vh] px-6 md:px-0 w-full pointer-events-auto cursor-pointer"
+            data-page-content
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePageClick("red");
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <div className="flex items-center justify-center mb-8">
+              <PunchPaperRed />
+            </div>
+          </div>
         </div>
-      </main>
+
+        {/* WHITE LAYER */}
+        <div
+          ref={pageRefs.white}
+          className="col-start-1 md:col-span-8 md:col-start-2 row-start-1 relative w-full min-h-screen pointer-events-none"
+          style={{ zIndex: getZIndex("white") }}
+        >
+          <div
+            className="pt-[35vh] md:pt-[18vh] pb-[20vh] px-6 md:px-0 h-full w-full pointer-events-auto cursor-pointer"
+            data-page-content
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePageClick("white");
+            }}
+          >
+            <div className="w-full h-full mb-8">
+              <PunchPaperWhite />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Debug panel */}
+      <div className="fixed bottom-4 right-4 bg-black/80 text-white p-4 rounded-lg text-sm backdrop-blur">
+        <div className="font-bold mb-2">Debug Info:</div>
+        <div>Stack: {stack.join(" → ")}</div>
+        <div>Top layer: {stack[0]}</div>
+      </div>
     </div>
   );
 }
