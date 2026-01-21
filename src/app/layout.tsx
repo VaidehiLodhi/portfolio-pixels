@@ -32,6 +32,7 @@ export default function RootLayout({
           "bg-[#DF4346]"
         )}
       >
+        <TextMarquee />
         <main>{children}</main>
       </body>
     </html>

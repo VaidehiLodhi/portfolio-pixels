@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { PunchPaperRed } from "@/components/punch-paper-red";
-import { PunchPaperWhite } from "@/components/punch-paper-white";
+import { PunchPaperWhite } from "@/components/punch-white/punch-paper-white";
 import gsap from "gsap";
 
 type cardId = "red" | "white";
@@ -118,7 +118,7 @@ export default function Home() {
               handlePageClick("white");
             }}
           >
-            <div className="w-full h-full mb-8">
+            <div className="w-full h-full max-w-[95vw] sm:max-w-[600px] md:max-w-[800px] lg:max-w-[1009px] mb-8">
               <PunchPaperWhite />
             </div>
           </div>
