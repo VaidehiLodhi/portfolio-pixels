@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import { WhiteContent } from "./white-content";
 
 type PunchPaperWhiteProps = {
   className?: string;
@@ -11,15 +12,23 @@ export const PunchPaperWhite = forwardRef<
   >(({className = "", style}, ref) => {
     const maskId = "punchmask-white";
 
+    // Design dimensions (1009 x 1477 aspect ratio)
+    const designWidth = 1009;
+    const designHeight = 1477;
+
+    // 60% of design dimensions (minimum size)
+    const minWidth = designWidth * 0.6; // 605.4px
+    const minHeight = designHeight * 0.6; // 886.2px
+
     return (
-      <div 
-        ref={ref}
-        className={`absolute w-full ${className}`}
-        style={style}
-      >
+      <div ref={ref} className={` w-full ${className}`} style={style}>
         <div
-          className={`relative w-full max-w-2xl aspect-3/4 rounded-md bg-amber-50`}
+          className={`relative w-full rounded-md bg-amber-50`}
           style={{
+            maxWidth: `${designWidth}px`,
+            minWidth: `${minWidth}px`,
+            minHeight: `${minHeight}px`,
+            height: "auto",
             mask: `url(#${maskId})`,
             WebkitMask: `url(#${maskId})`,
           }}
@@ -46,48 +55,48 @@ export const PunchPaperWhite = forwardRef<
                 {/* black circles - punch holes (invisible) */}
                 {/* Top left */}
                 <circle
-                  cx="0.07"
-                  cy="0.04"
-                  r="0.01"
+                  cx="0.02"
+                  cy="0.02"
+                  r="0.007"
                   transform="scale(1 0.75)"
                   fill="black"
                 />
 
                 {/* Left side holes */}
                 <circle
-                  cx="0.07"
+                  cx="0.02"
                   cy="0.25"
-                  r="0.01"
+                  r="0.007"
                   fill="black"
                   transform="scale(1 0.75)"
                 />
                 <circle
-                  cx="0.07"
+                  cx="0.02"
                   cy="0.51"
-                  r="0.01"
+                  r="0.007"
                   fill="black"
                   transform="scale(1 0.75)"
                 />
                 <circle
-                  cx="0.07"
+                  cx="0.02"
                   cy="0.77"
-                  r="0.01"
+                  r="0.007"
                   fill="black"
                   transform="scale(1 0.75)"
                 />
                 <circle
-                  cx="0.07"
+                  cx="0.02"
                   cy="1.03"
-                  r="0.01"
+                  r="0.007"
                   fill="black"
                   transform="scale(1 0.75)"
                 />
 
                 {/* Bottom left */}
                 <circle
-                  cx="0.07"
-                  cy="1.235"
-                  r="0.01"
+                  cx="0.02"
+                  cy="1.3"
+                  r="0.007"
                   fill="black"
                   transform="scale(1 0.75)"
                 />
@@ -96,7 +105,7 @@ export const PunchPaperWhite = forwardRef<
           </svg>
 
           {/* top border */}
-          <div className="absolute top-0 left-0 right-0 bg-transparent h-10 rounded-t-md border-b-[1.5px] border-dashed border-current grid grid-cols-12 text-xs laptop:text-sm font-bold mb-10 md:mb-0">
+          <div className="absolute top-0 left-0 right-0 bg-transparent h-7.5 rounded-t-md border-b-[1.5px] border-dashed border-current grid grid-cols-12 text-xs laptop:text-sm font-bold mb-10 md:mb-0">
             <div className="col-span-6 flex items-center">
               <div className="h-full flex pl-13 items-center justify-center">
                 <span className="w-2 h-2 bg-current"></span>
@@ -109,7 +118,7 @@ export const PunchPaperWhite = forwardRef<
             </div>
           </div>
           {/* left border */}
-          <div className="absolute top-0 left-0 bottom-0 bg-transparent w-10 rounded-l-md border-r-[1.5px] border-dashed border-current grid grid-rows-12 text-xs laptop:text-sm font-bold mr-10">
+          <div className="absolute top-0 left-0 bottom-0 bg-transparent w-7.5 rounded-l-md border-r-[1.5px] border-dashed border-current grid grid-rows-12 text-xs laptop:text-sm font-bold ">
             {/* first row */}
             <div className="row-span-1 grid grid-rows-2">
               <div className="row-span-1 flex w-full h-full items-center justify-center ">
@@ -130,9 +139,9 @@ export const PunchPaperWhite = forwardRef<
             </div>
           </div>
           {/* right border */}
-          <div className="absolute top-0 right-0 bottom-0 bg-transparent w-10 rounded-r-md border-l-[1.5px] border-dashed border-current grid grid-rows-12 text-xs laptop:text-sm font-bold ml-10" />
+          <div className="absolute top-0 right-0 bottom-0 bg-transparent w-7.5 rounded-r-md border-l-[1.5px] border-dashed border-current grid grid-rows-12 text-xs laptop:text-sm font-bold" />
           {/* bottom border */}
-          <div className="absolute bottom-0 left-0 right-0 bg-transparent h-10 rounded-b-md border-t-[1.5px] border-dashed border-current grid grid-cols-12 text-xs laptop:text-sm font-bold">
+          <div className="absolute bottom-0 left-0 right-0 bg-transparent h-7.5 rounded-b-md border-t-[1.5px] border-dashed border-current grid grid-cols-12 text-xs laptop:text-sm font-bold">
             <div className="col-span-6 flex items-center">
               <div className="h-full flex pl-13 items-center justify-center">
                 <span className="w-2 h-2 bg-current"></span>
@@ -144,9 +153,15 @@ export const PunchPaperWhite = forwardRef<
               </div>
             </div>
           </div>
+
+          <div className="relative inset-0 p-7.5 flex items-start justify-center">
+            <div className="w-full h-full">
+              <WhiteContent />
+            </div>
+          </div>
         </div>
       </div>
     );
-});
+  });
 
 PunchPaperWhite.displayName = "PunchPaperWhite";
