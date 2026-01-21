@@ -2,13 +2,13 @@
 
 import {useRef, useEffect} from "react"
 import gsap from "gsap"
-import localFont from "next/font/local";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP);
 
+import localFont from "next/font/local";
 export const gokil = localFont({
-  src: "../../public/bombass.ttf",
+  src: "../../public/fonts/Gokil.ttf",
   variable: "--font-gokil",
   display: "swap",
 });
@@ -96,13 +96,10 @@ export const TextMarquee =()=> {
     }, {scope: containerRef})
 
     return (
-      <div
-        ref={containerRef}
-        className="overflow-hidden w-full"
-      >
+      <div ref={containerRef} className="overflow-hidden w-full">
         <div
           ref={trackRef}
-          className={`${gokil.className} py-4 uppercase text-transparent [-webkit-text-stroke:0.5px_#fab5c5] flex whitespace-nowrap text-[5rem] font-bold will-change-transform`}
+          className={`${gokil.className} pt-25  uppercase text-[#FAB5C5] flex whitespace-nowrap text-6xl md:text-8xl lg:text-9xltext-9xl will-change-transform`}
         >
           <span className="mr-12">Vaidehi * Developer * Designer *</span>
           <span className="mr-12">Vaidehi * Developer * Designer *</span>
