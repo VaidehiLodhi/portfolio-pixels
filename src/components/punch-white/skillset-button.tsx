@@ -189,7 +189,7 @@ export const SkillsetButton = ({
       {/* Hover text that appears */}
       <div
         ref={hoverTextContainerRef}
-        className={`${belmonte.className} absolute text-lg text-black`}
+        className={`${belmonte.className} absolute text-lg font-extralight text-black`}
         style={{
           bottom: hoverTextPosition.bottom,
           right: hoverTextPosition.right,
