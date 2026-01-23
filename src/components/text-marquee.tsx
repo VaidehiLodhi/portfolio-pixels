@@ -99,7 +99,7 @@ export const TextMarquee =()=> {
       <div ref={containerRef} className="overflow-hidden w-full">
         <div
           ref={trackRef}
-          className={`${gokil.className} pt-25  uppercase text-[#FAB5C5] flex whitespace-nowrap text-6xl md:text-8xl lg:text-9xltext-9xl will-change-transform`}
+          className={`${gokil.className} pt-25  uppercase text-[#FAB5C5] flex whitespace-nowrap text-6xl md:text-8xl lg:text-9xl will-change-transform`}
         >
           <span className="mr-12">Vaidehi * Developer * Designer *</span>
           <span className="mr-12">Vaidehi * Developer * Designer *</span>

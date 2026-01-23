@@ -1,6 +1,14 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import localFont from "next/font/local";
+
+// magnat test text regular
+export const magnat_text_regular = localFont({
+  src: "../../../public/fonts/magnat_family/text_test/magnat_text_test_regular.woff",
+  variable: "--font-magnat_text_regular",
+  display: "swap",
+});
 
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -10,6 +18,25 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
         "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
         className
       )}
+      {...props}
+    />
+  )
+}
+
+function SidebarCard({
+  className,
+  style, 
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="card"
+      className={cn(
+        `${magnat_text_regular.className}`,
+        "rounded-none flex flex-col border-0",
+        className
+      )}
+      style={style}
       {...props}
     />
   )
@@ -83,6 +110,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
 
 export {
   Card,
+  SidebarCard,
   CardHeader,
   CardFooter,
   CardTitle,

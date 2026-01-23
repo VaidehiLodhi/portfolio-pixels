@@ -36,7 +36,7 @@ export const PunchPaperWhite = forwardRef<
           <div
             className="absolute inset-0 rounded-md"
             style={{
-              backgroundImage: "url('/white_bg_paper.webp')",
+              backgroundImage: "url('/imgs/white_bg_paper.webp')",
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
