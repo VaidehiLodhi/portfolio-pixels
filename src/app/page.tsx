@@ -1,8 +1,9 @@
 "use client";
 import { useRef, useState } from "react";
-import { PunchPaperRed } from "@/components/punch-paper-red";
+import { PunchPaperRed } from "@/components/project-page/punch-paper-red";
 import { PunchPaperWhite } from "@/components/punch-white/punch-paper-white";
 import gsap from "gsap";
+import { DiaryPage } from "@/components/diary-page/diary-page";
 
 type cardId = "red" | "white";
 
@@ -42,7 +43,7 @@ export default function Home() {
     }
 
     const contentRef = movingRef.querySelector(
-      "[data-page-content]"
+      "[data-page-content]",
     ) as HTMLElement;
     if (!contentRef) {
       isAnimating.current = false;
@@ -77,7 +78,7 @@ export default function Home() {
           duration: 0.6,
           ease: "power1.out",
           immediateRender: false,
-        }
+        },
       );
   };
 

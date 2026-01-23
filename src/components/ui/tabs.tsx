@@ -4,6 +4,7 @@ import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
+import { magnat_test_light } from "../punch-white/skillset-button"
 
 function Tabs({
   className,
@@ -50,6 +51,31 @@ function TabsTrigger({
   )
 }
 
+function SidebarTabsTrigger({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
+  return (
+    <TabsPrimitive.Trigger
+      data-slot="tabs-trigger"
+      className={cn(
+        // Copy the base styles you want to keep from original TabsTrigger
+        `${magnat_test_light.className}`,
+          "data-[state=active]:bg-(--active-bg)",
+         "focus-visible:ring-ring/50 focus-visible:outline-none", 
+         "text-black",  
+         "border border-l-0 border-r-0 border-t-0 border-black", 
+         "py-2 pl-6 m-0 text-xl font-extralight transition-[color,box-shadow]", 
+         "focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        // Your custom sidebar styles (no flex-1, no centering)
+        "flex h-auto flex-none items-start justify-start rounded-none w-full",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
 function TabsContent({
   className,
   ...props
@@ -63,4 +89,4 @@ function TabsContent({
   )
 }
 
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+export { Tabs, TabsList, TabsTrigger, TabsContent, SidebarTabsTrigger }
