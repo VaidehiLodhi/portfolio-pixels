@@ -119,7 +119,7 @@ useGSAP(
         stagger: 0.04,
         ease: "power2.out",
       },
-      "-=0.6",
+      "-=0.5",
     );
 
     // highlight + lateral motion (emotional beat)
