@@ -129,60 +129,83 @@ export const TextRevealComponent4 = () => {
         });
 
       // LINE 2 (TEXT → SCRIBBLE → HIGHLIGHT → WORD) 
-      const line2TL = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".line2",
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
+  // LINE 2 (TEXT → SCRIBBLE → HIGHLIGHT → WORD) 
+const line2TL = gsap.timeline({
+  scrollTrigger: {
+    trigger: ".line2",
+    start: "top 80%",
+    toggleActions: "play none none reverse"
+  },
+});
 
-      line2TL
-        // revealing the "need"
-        .to(line2Chars, {
-          scaleY: 1,
-          rotationX: 0,
-          duration: 0.8,
-          stagger: 0.05,
-          ease: "power2.out",
-        })
-        // drawing the scribble
-        .to(
-          scribbleRef.current,
-          {
-            strokeDashoffset: 0,
-            duration: 1.1,
-            ease: "power1.inOut",
-          },
-          ">-0.2",
-        )
-        // move "need" to left
-        .to(
-          needRef.current, {
-            x: -120,
-            duration: 0.6,
-            ease: "power2.out",
-          },
-          ">",
-        )
-        .to(
-          deservesRef.current, {
-            opacity: 1,
-            scale: 1,
-            duration: 0.25,
-            ease: "power2.out"
-          },
-          "<+=0.1",
-        )
-        .to(
-          highlight1Ref.current,
-          {
-            scaleX: 1,
-            duration: 0.6,
-            ease: "power2.inOut",
-          },
-          ">-0.2",
-        )
+const scribbleLength = scribbleRef.current?.getTotalLength() || 1000;
+
+line2TL
+  // revealing the "need"
+  .fromTo(
+    line2Chars,
+    {
+      scaleY: 0.01,
+      rotationX: -90,
+    },
+    {
+      scaleY: 1,
+      rotationX: 0,
+      duration: 0.8,
+      stagger: 0.05,
+      ease: "power2.out",
+    },
+  )
+  // drawing the scribble
+  .fromTo(
+    scribbleRef.current,
+    {
+      strokeDasharray: scribbleLength,
+      strokeDashoffset: scribbleLength, // Start hidden
+    },
+    {
+      strokeDasharray: scribbleLength,
+      strokeDashoffset: 0, // End visible
+      duration: 1.1,
+      ease: "power1.inOut",
+    },
+    ">-0.2",
+  )
+  // move "need" to left
+  .fromTo(
+    needRef.current,
+    { x: 0 },
+    {
+      x: -120,
+      duration: 0.6,
+      ease: "power2.out",
+    },
+    ">",
+  )
+  .fromTo(
+    deservesRef.current,
+    {
+      opacity: 0,
+      scale: 0.8,
+    },
+    {
+      opacity: 1,
+      scale: 1,
+      duration: 0.5,
+      ease: "power2.out",
+    },
+    "<",
+  )
+  .fromTo(
+    highlight1Ref.current,
+    { scaleX: 0 },
+    {
+      scaleX: 1,
+      duration: 0.6,
+      ease: "power2.inOut",
+    },
+    ">",
+  );
 
       // line bou
       const line3TL = gsap.timeline({
@@ -216,7 +239,14 @@ export const TextRevealComponent4 = () => {
 
 
   return (
-    <div className="h-screen w-full flex flex-col items-center justify-center bg-[#FAB5C5] overflow-clip">
+    <div
+      className="section h-screen w-full flex flex-col items-center justify-center bg-[#F5C7C7] overflow-clip"
+      style={{
+        transform: "rotate(30deg)",
+        transformOrigin: "bottom left",
+        willChange: "transform",
+      }}
+    >
       <div ref={containerRef} className="container relative w-full">
         <div className="mb-0">
           {/* First line - "ur ideas" */}
@@ -263,11 +293,11 @@ export const TextRevealComponent4 = () => {
                 ref={deservesRef}
                 className={`${magnat_text_regular.className} text-[84px] inline-block relative z-10 ml-5`}
               >
-                deserves
+                deserve
               </span>
               <div
                 ref={highlight1Ref}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-100 h-16 bg-[#E4CEFF]"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-90 h-16 bg-[#E4CEFF]"
               />
             </span>
           </span>

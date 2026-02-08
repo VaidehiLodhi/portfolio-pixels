@@ -177,7 +177,14 @@ useGSAP(
 );
 
   return (
-    <div className="h-screen w-full flex flex-col items-center justify-center bg-[#FAB5C5] overflow-clip">
+    <div
+      className="section h-screen w-full flex flex-col items-center justify-center bg-[#D0F5C7] overflow-clip"
+      style={{
+        transform: "rotate(30deg)",
+        transformOrigin: "bottom left",
+        willChange: "transform",
+      }}
+    >
       <div ref={containerRef} className="container relative w-full">
         <div className="mb-0">
           {/* First line - "so, if normal" */}

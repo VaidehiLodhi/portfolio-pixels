@@ -4,11 +4,9 @@ import "../globals.css";
 import { cn } from "@/lib/utils";
 import { TextMarquee } from "@/components/text-marquee";
 import { ScrollRevealBg } from "@/components/layout/scroll-bg";
-import { TextRevealComponent1 } from "@/components/page-components/text-reveal-1";
 import localFont from "next/font/local";
-import { TextRevealComponent2 } from "@/components/page-components/text-reveal-2";
-import { TextRevealComponent3 } from "@/components/page-components/text-reveal-3";
-import { TextRevealComponent4 } from "@/components/page-components/text-reveal-4";
+import { HorizontalScrollSection } from "@/components/page-components/horizontal-scroll";
+import { FooterBlock } from "@/components/layout/footer/footer-block";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,6 +52,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
@@ -70,10 +69,8 @@ export default function RootLayout({
         <ScrollRevealBg />
         <TextMarquee />
         <main>{children}</main>
-        <TextRevealComponent1/>
-        <TextRevealComponent2/>
-        <TextRevealComponent3/>
-        <TextRevealComponent4/>
+        <HorizontalScrollSection/>
+        <FooterBlock/>
       </body>
     </html>
   );
