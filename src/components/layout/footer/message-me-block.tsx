@@ -16,20 +16,20 @@ export const departure_mono = localFont({
 
 export const MessageMeBlock =()=> {
     return (
-      <div className="flex flex-col items-center justify-center text-[#FAB5C5]">
-        <div className="flex flex-col gap-0 items-start justify-center pb-5">
+      <div className="flex flex-col items-center w-full justify-center pt-12 text-[#FAB5C5]">
+        <div className="flex flex-col w-full gap-0 items-start justify-center pb-5 pl-15">
           <div
-            className={`${magnat_text_regular.className} leading-none text-left text-[36px]`}
+            className={`${magnat_text_regular.className} leading-none text-left text-[34px]`}
           >
             Yup, that's me, Vaidehi.
           </div>
           <div
-            className={`${magnat_text_regular.className} text-left text-[36px]`}
+            className={`${magnat_text_regular.className} text-left text-[34px]`}
           >
             (Vaibee on the internet, hehe)
           </div>
         </div>
-        <div className={`${departure_mono.className} flex flex-col gap-0 items-start justify-center text-[16px]`}>
+        <div className={`${departure_mono.className} pl-20 w-full flex flex-col gap-0 items-start justify-center text-[14px]`}>
           <p>I'm always up for opportunities to work</p>
           <p>on new projects, participate in a hackathon or</p>
           <p>anything fun!</p>

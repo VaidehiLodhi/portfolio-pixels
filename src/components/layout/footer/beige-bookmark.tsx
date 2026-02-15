@@ -50,11 +50,11 @@ export const BeigeBookmark = () => {
           <Image
             src="/imgs/footer/cat_crossward.svg"
             alt="cat crossward"
-            width={177.74}
-            height={146.22}
+            width={157.74}
+            height={126.22}
           />
           <div
-            className={`${departure_mono.className} text-[#E60AA9] pt-7 pb-8 flex flex-col text-[14px] text-center`}
+            className={`${departure_mono.className} text-[#E60AA9] pt-7 pb-8 flex flex-col text-[12px] text-center`}
           >
             <div>creating,</div>
             <div>from my nook</div>
@@ -71,7 +71,7 @@ export const BeigeBookmark = () => {
           className="h-auto pb-2"
         />
         <p
-          className={`${nok.className} uppercase text-[42px] p-0 m-0 leading-none  text-[#F69FA5]`}
+          className={`${nok.className} uppercase text-[38px] p-0 m-0 leading-none  text-[#F69FA5]`}
         >
           VAIBEE.INC
         </p>

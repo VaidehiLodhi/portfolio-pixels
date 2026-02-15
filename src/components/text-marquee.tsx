@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(useGSAP);
 
 import localFont from "next/font/local";
+import { CharPerChar } from "./char-per-char";
 export const gokil = localFont({
   src: "../../public/fonts/Gokil.ttf",
   variable: "--font-gokil",
@@ -99,12 +100,20 @@ export const TextMarquee =()=> {
       <div ref={containerRef} className="overflow-hidden w-full">
         <div
           ref={trackRef}
-          className={`${gokil.className} pt-25  uppercase text-[#FAB5C5] flex whitespace-nowrap text-6xl md:text-8xl lg:text-9xl will-change-transform`}
+          className={`uppercase text-[#FAB5C5] flex whitespace-nowrap will-change-transform`}
         >
-          <span className="mr-12">Vaidehi * Developer * Designer *</span>
-          <span className="mr-12">Vaidehi * Developer * Designer *</span>
-          <span className="mr-12">Vaidehi * Developer * Designer *</span>
-          <span className="mr-12">Vaidehi * Developer * Designer *</span>
+          <span>
+            <CharPerChar />
+          </span>
+          <span>
+            <CharPerChar />
+          </span>
+          <span>
+            <CharPerChar />
+          </span>
+          <span>
+            <CharPerChar />
+          </span>
         </div>
       </div>
     );

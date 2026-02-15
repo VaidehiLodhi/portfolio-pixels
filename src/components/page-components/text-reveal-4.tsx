@@ -5,7 +5,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Source_Code_Pro } from "next/font/google";
 import localFont from "next/font/local";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { RickStickerPack } from "./rick_sticker_pack";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -240,7 +242,7 @@ line2TL
 
   return (
     <div
-      className="section h-screen w-full flex flex-col items-center justify-center bg-[#F5C7C7] overflow-clip"
+      className="section h-screen w-full flex flex-col items-center justify-center bg-[#F0FAFF] overflow-clip"
       style={{
         transform: "rotate(30deg)",
         transformOrigin: "bottom left",
@@ -257,6 +259,21 @@ line2TL
             >
               {splitTextIntoChars("ur ideas")}
             </span>
+
+            {/* pancakes sticker comes here */}
+            <div
+              style={{
+                transform: "translateX(-50%) translateY(-50%)",
+              }}
+              className="absolute top-1/2 left-1/2 -translate-y-30 -translate-x-60"
+            >
+              <Image
+                src="/imgs/stickers/reveal-4/pancake.png"
+                height={81}
+                width={172}
+                alt="pancakes"
+              />
+            </div>
           </span>
 
           {/* Second line - "need deserves" with highlight */}
@@ -326,6 +343,15 @@ line2TL
                 </span>
               </span>
             </span>
+
+             <div
+                style={{
+                  transform: "translateX(50%) translateY(50%)",
+                }}  
+                className="absolute bottom-0 right-0 -translate-x-40 "
+              >
+                <RickStickerPack/>
+              </div>
           </span>
         </div>
       </div>
