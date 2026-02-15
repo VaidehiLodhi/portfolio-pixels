@@ -6,6 +6,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Source_Code_Pro } from "next/font/google";
 import localFont from "next/font/local";
 import { useRef } from "react";
+import { PlantinoStickerPack } from "./tanjiro_sticker_pack";
+import { PeaShooterStickerPack } from "./pvz_sticker_pack";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -148,6 +150,14 @@ useGSAP(
                   ref={highlight1Ref}
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-100 h-16 bg-[#E4CEFF]"
                 />
+                <div
+                  style={{
+                    transform: "translateX(-50%) translateY(-50%)",
+                  }}
+                  className="absolute top-0 left-0 translate-x-50 -translate-y-20"
+                >
+                  <PlantinoStickerPack />
+                </div>
               </span>
 
               <span
@@ -187,6 +197,14 @@ useGSAP(
                 {splitTextIntoChars("re what you seek")}
               </span>
             </span>
+            <div
+              style={{
+                transform: "translateX(50%) translateY(50%)",
+              }}  
+              className="absolute bottom-0 right-0 -translate-x-50 translate-y-10"
+            >
+              <PeaShooterStickerPack />
+            </div>
           </span>
         </div>
       </div>

@@ -24,7 +24,7 @@ function InputFooter({ className, type, ...props }: React.ComponentProps<"input"
       type={type}
       data-slot="input"
       className={cn(
-        "file:text-foreground placeholder:text-[16px] py-4 px-5 selection:bg-[#FAB5C5] selection:text-[#2B0C7D] border-[#FAB5C5] w-full min-w-0 border bg-transparent transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+        "file:text-foreground placeholder:text-[14px] py-3 px-4 selection:bg-[#FAB5C5] selection:text-[#2B0C7D] border-[#FAB5C5] min-w-0 border bg-transparent transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
         "focus-visible:border-[#FAB5C5] focus-visible:ring-[#FAB5C5]/50 focus-visible:[#FAB5C5]-[2px]",
         "aria-invalid:ring-[#930A0C]/20 aria-invalid:border-[#930A0C]",
         className,

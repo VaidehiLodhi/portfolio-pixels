@@ -7,34 +7,34 @@ export const SocialBadges = () => {
       name: "linkedin",
       link: "https://linkedin.com/in/yourprofile",
       src: "/imgs/footer/logos/linkeding.svg",
-      height: 30,
-      width: 30,
+      height: 20,
+      width: 20,
     },
     {
       name: "x",
       link: "https://x.com/yourhandle",
       src: "/imgs/footer/logos/xing.svg",
-      height: 30,
-      width: 30,
+      height: 20,
+      width: 20,
     },
     {
       name: "github",
       link: "https://github.com/yourusername",
       src: "/imgs/footer/logos/githubing.svg",
-      height: 30,
-      width: 30,
+      height: 20,
+      width: 20,
     },
     {
       name: "mail",
       link: "mailto:your@email.com",
       src: "/imgs/footer/logos/mailing.svg",
-      height: 23,
-      width: 30,
+      height: 13,
+      width: 20,
     },
   ];
 
   return (
-    <div className="flex gap-8 py-8 w-full items-center justify-start">
+    <div className="flex gap-8 py-8 w-90 items-center justify-center">
       {socials.map((social) => (
         <Link
           key={social.name}

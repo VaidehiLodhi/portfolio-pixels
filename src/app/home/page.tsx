@@ -209,7 +209,7 @@ export default function Home() {
   };  
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-10 font-sans">
+    <div className="min-h-screen flex items-center justify-center px-10 font-sans">
       <div className="relative grid grid-cols-1 md:grid-cols-12 md:gap-x-20 md:px-20 w-full min-h-screen">
         {/* RED LAYER */}
         <div

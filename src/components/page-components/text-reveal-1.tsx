@@ -6,6 +6,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Source_Code_Pro } from "next/font/google";
 import localFont from "next/font/local";
 import { useRef } from "react";
+import { Highlight1 } from "./highlight1";
+import Image from "next/image";
+import StickerPeel from "../StickerPeel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -72,8 +75,7 @@ useGSAP(
 
     // initial highlight
     gsap.set(highlightRef.current, {
-      scaleX: 0,
-      transformOrigin: "left center",
+      clipPath: "inset(0% 100% 0% 0%)",
     });
 
     const tl = gsap.timeline({
@@ -126,9 +128,9 @@ useGSAP(
     tl.to(
       highlightRef.current,
       {
-        scaleX: 1,
-        duration: 0.5,
-        ease: "power2.inOut",
+        clipPath: "inset(0% 0% 0% 0%)", // reveals fully
+        duration: 1,
+        ease: "power1.out",
       },
       "-=0.8",
     )
@@ -136,7 +138,7 @@ useGSAP(
         isntfunRef.current,
         {
           x: "-20%",
-          ease: "power2.out",
+          ease: "power1.out",
         },
         "<",
       )
@@ -144,7 +146,7 @@ useGSAP(
         anymoreRef.current,
         {
           x: "20%",
-          ease: "power2.out",
+          ease: "power1.out",
         },
         "<",
       );
@@ -154,7 +156,7 @@ useGSAP(
 
 
   return (
-    <div 
+    <div
       className="section h-screen w-full flex flex-col items-center justify-center bg-[#FAB5C5] overflow-clip"
       style={{
         transform: "rotate(30deg)",
@@ -165,13 +167,34 @@ useGSAP(
       <div ref={containerRef} className="container relative w-full">
         <div className="mb-0">
           {/* First line - "so, if normal" */}
-          <span className="line1 block text-right pr-5 md:text-center md:pr-0">
+          <span className="line1 relative block text-right pr-5 md:text-center md:pr-0">
             <span
               className={`${source_code.className} uppercase text-[40px] inline-block`}
               style={{ transform: "translate(20%, 0%)" }}
             >
               {splitTextIntoChars("so, if normal")}
             </span>
+
+            {/* catto sticker comes here */}
+            <div
+            
+              style={{
+                transform: "translateX(-50%) translateY(-50%)",
+              }}
+              className="absolute top-1/2 left-1/2 -translate-y-10 -translate-x-50"
+            >
+              <StickerPeel
+                imageSrc="/imgs/stickers/reveal-1/kato_pixel_boi.png"
+                width={94}
+                height={196}
+                alt="kato_sticker"
+                rotate={5}
+                peelBackHoverPct={20}
+                peelBackActivePct={40}
+                shadowIntensity={0}
+                peelDirection={15}
+              />
+            </div>
           </span>
 
           {/* Second line - "isn't fun" with highlight */}
@@ -187,8 +210,18 @@ useGSAP(
               </span>
               <div
                 ref={highlightRef}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-100 h-16 bg-[#76FF02]"
-              />
+                style={{
+                  // inline takes precedence over className
+                  width: "700px",
+                  height: "200px",
+                  // positions left edge at parents's horizontal center
+                  // positions top edge at parent's vertical center
+                  transform: "translateX(-50%)", // due to left and transform x, perfectly centered
+                }}
+                className="absolute flex items-center justify-center left-1/2 top-1/2 -translate-y-1/2 translate-x-20"
+              >
+                <Highlight1 />
+              </div>
             </span>
           </span>
 
@@ -209,6 +242,26 @@ useGSAP(
                 {splitTextIntoChars("nymore")}
               </span>
             </span>
+
+            {/* jax sticker comes here */}
+            <div
+              style={{
+                transform: "translateX(-50%) translateY(-50%)",
+              }}
+              className="absolute top-1/2 left-1/2 -translate-x-50"
+            >
+              <StickerPeel
+                imageSrc="/imgs/stickers/reveal-1/jax_rabbit.png"
+                width={120.15}
+                height={141.6}
+                rotate={0}
+                peelBackHoverPct={20}
+                peelBackActivePct={40}
+                shadowIntensity={0.2}
+                peelDirection={90}
+                alt="jax_sticker"
+              />
+            </div>
           </span>
         </div>
       </div>

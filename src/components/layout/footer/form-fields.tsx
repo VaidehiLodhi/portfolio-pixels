@@ -102,10 +102,10 @@ export const FormFields = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className={`${magnat_text_regular.variable} w-full pr-25 pt-7`}
+      className={`${magnat_text_regular.variable} w-full pl-20 pt-7`}
     >
       <FieldGroup className="gap-0">
-        <Field className="gap-0">
+        <Field className="gap-0 w-90">
           <InputFooter
             id="fieldgroup-name"
             placeholder="Name"
@@ -123,7 +123,7 @@ export const FormFields = () => {
             )}
           </div>
         </Field>
-        <Field className="gap-0">
+        <Field className="gap-0 w-90">
           <InputFooter
             id="fieldgroup-email"
             type="email"
@@ -142,7 +142,7 @@ export const FormFields = () => {
             )}
           </div>
         </Field>
-        <Field className="gap-0">
+        <Field className="gap-0 w-90">
           <TextareaFooter
             id="fieldgroup-message"
             placeholder="anything u wanna say!"
@@ -159,7 +159,7 @@ export const FormFields = () => {
         size="footer"
         type="submit"
         variant="footer"
-        className={`${departure_mono.className} bg-[#FAB5C5] text-[#DF4346] text-[16px] py-4 mt-4 w-full`}
+        className={`${departure_mono.className} bg-[#FAB5C5] text-[#DF4346] text-[14px] mt-4 w-90`}
       >
         Drop it in &lt;3
       </Button>

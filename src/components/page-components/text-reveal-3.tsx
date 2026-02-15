@@ -5,7 +5,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Source_Code_Pro } from "next/font/google";
 import localFont from "next/font/local";
+import Image from "next/image";
 import { useRef } from "react";
+import { BmoStickerPack } from "./bmo_sticker_pack";
+import StickerPeel from "../StickerPeel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -213,6 +216,28 @@ useGSAP(
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-100 h-16 bg-[#76FF02]"
               />
             </span>
+
+            {/* radish sticker comes here */}
+            <div
+              style={{
+                transform: "translateX(50%) translateY(50%)",
+              }}
+              className="absolute right-1/2 bottom-0 translate-x-55 -translate-y-15"
+              // right-0 aligns the right edge of the absolute element with the right edge of the parent
+              // bottom-0 aligns the bottom edge of the absolute element with the bottom edge of the parent
+            >
+              <StickerPeel
+                imageSrc="/imgs/stickers/reveal-3/radish.png"
+                height={165.78}
+                width={101.92}
+                alt="radish_sticker"
+                rotate={-8}
+                peelBackHoverPct={20}
+                peelBackActivePct={30}
+                shadowIntensity={0.2}
+                peelDirection={0}
+              />
+            </div>
           </span>
 
           {/* Third line - "Anymore" */}
@@ -243,6 +268,11 @@ useGSAP(
                 />
               </span>
             </span>
+
+            {/* bmo sticker pack here */}
+            <div className="absolute left-0 top-0 -translate-x-10 -translate-y-10">
+              <BmoStickerPack />
+            </div>
           </span>
         </div>
       </div>
