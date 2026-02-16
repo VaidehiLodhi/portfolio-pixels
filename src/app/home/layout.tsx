@@ -7,7 +7,6 @@ import { ScrollRevealBg } from "@/components/layout/scroll-bg";
 import localFont from "next/font/local";
 import { HorizontalScrollSection } from "@/components/page-components/horizontal-scroll";
 import { FooterBlock } from "@/components/layout/footer/footer-block";
-import { CharPerChar } from "@/components/char-per-char";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -70,9 +69,9 @@ export default function RootLayout({
         <ScrollRevealBg />
         <TextMarquee />
         <main>{children}</main>
-        <HorizontalScrollSection/>
-        <FooterBlock/>
-        <TextMarquee/>
+        <HorizontalScrollSection />
+        <FooterBlock />
+        <TextMarquee />
       </body>
     </html>
   );

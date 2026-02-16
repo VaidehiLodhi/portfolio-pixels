@@ -19,17 +19,26 @@ export const HorizontalScrollSection =()=> {
       const lenisRef = useRef<LenisRef | null>(null);
 
         useEffect(() => {
-            function update(time : number) {
+          function update(time: number) {
             lenisRef.current?.lenis?.raf(time * 1000);
-            }
-        
-            lenisRef.current?.lenis?.on("scroll", 
-            ScrollTrigger.update);
-            gsap.ticker.add(update);
-            gsap.ticker.lagSmoothing(0);
-        
-            return () => gsap.ticker.remove(update);
-        }, [])
+          }
+
+          lenisRef.current?.lenis?.on("scroll", ScrollTrigger.update);
+
+          // Make Lenis globally accessible so dialogs can pause it
+          if (lenisRef.current?.lenis) {
+            (window as any).lenis = lenisRef.current.lenis;
+          }
+
+          gsap.ticker.add(update);
+          gsap.ticker.lagSmoothing(0);
+
+          return () => {
+            gsap.ticker.remove(update);
+            // Clean up global reference
+            delete (window as any).lenis;
+          } 
+      }, []);
 
           useGSAP(
             () => {
