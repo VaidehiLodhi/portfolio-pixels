@@ -20,6 +20,7 @@ import localFont from "next/font/local";
 import { TextScrollMarquee } from "./text-scroll-marquee";
 import { hiveObject } from "./project-texts/hive_object";
 import { SidebarCardContent } from "./sidebat-content";
+import { ImgScroll } from "./project-img-scroll/img-scroll";
 
 interface PunchPaperRedProps {
   className?: string;
@@ -139,6 +140,7 @@ export const PunchPaperRed = React.forwardRef<
                         title={project.title}
                         textColor={project.fontActiveState}
                       />
+                      <ImgScroll />
                     </CardHeader>
                     <CardContent>
                       <div className="flex flex-col gap-8">

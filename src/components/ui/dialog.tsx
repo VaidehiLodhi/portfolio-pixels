@@ -1,0 +1,299 @@
+"use client"
+
+import * as React from "react"
+import { XIcon } from "lucide-react"
+import * as DialogPrimitive from "@radix-ui/react-dialog"
+
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+function Dialog({
+  modal=true,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Root>) {
+  return <DialogPrimitive.Root data-slot="dialog" {...props} />
+}
+
+function DialogTrigger({
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
+  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
+}
+
+function DialogPortal({
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Portal>) {
+  return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
+}
+
+function DialogClose({
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Close>) {
+  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />
+}
+
+function DialogOverlay({
+  className,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
+  return (
+    <DialogPrimitive.Overlay
+      data-slot="dialog-overlay"
+      className={cn(
+        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function DialogContent({
+  className,
+  children,
+  showCloseButton = true,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Content> & {
+  showCloseButton?: boolean;
+}) {
+  // Add body scroll lock here too
+  React.useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
+  return (
+    <DialogPortal data-slot="dialog-portal">
+      <DialogOverlay className="overflow-y-auto">
+        <DialogPrimitive.Content
+          data-slot="dialog-content"
+          className={cn(
+            "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 relative top-10 left-1/2 -translate-x-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] gap-4 rounded-lg border p-6 shadow-lg duration-200 outline-none sm:max-w-lg",
+            className,
+          )}
+          {...props}
+          onWheel={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+        >
+          {children}
+          {showCloseButton && (
+            <DialogPrimitive.Close
+              data-slot="dialog-close"
+              className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+            >
+              <XIcon />
+              <span className="sr-only">Close</span>
+            </DialogPrimitive.Close>
+          )}
+        </DialogPrimitive.Content>
+      </DialogOverlay>
+    </DialogPortal>
+  );
+}
+
+gsap.registerPlugin(ScrollTrigger);
+
+function ImgDialogContent({
+  className,
+  children,
+  showCloseButton = true,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Content> & {
+  showCloseButton?: boolean;
+}) {
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const overlayRef = React.useRef<HTMLDivElement>(null);
+
+  /* ---------------- Body Scroll Lock + Pause Lenis ---------------- */
+  React.useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    // Pause Lenis smooth scroll
+    const lenis = (window as any).lenis;
+    if (lenis) {
+      lenis.stop();
+    }
+
+    // Prevent wheel events on the entire document
+    const preventScroll = (e: WheelEvent) => {
+      // Only prevent if not scrolling inside our dialog
+      if (!scrollContainerRef.current?.contains(e.target as Node)) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener("wheel", preventScroll, { passive: false });
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.removeEventListener("wheel", preventScroll);
+
+      // Resume Lenis
+      if (lenis) {
+        lenis.start();
+      }
+    };
+  }, []);
+
+  /* ---------------- Wheel → Horizontal Scroll ---------------- */
+  const handleWheel = React.useCallback(
+    (e: React.WheelEvent<HTMLDivElement>) => {
+      const container = scrollContainerRef.current;
+      if (!container) return;
+
+      const SCROLL_SPEED = 3;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      const nextScroll = container.scrollLeft + e.deltaY * SCROLL_SPEED;
+
+      // Clamp within bounds
+      const clamped = Math.max(0, Math.min(nextScroll, maxScroll));
+
+      // Prevent vertical page scroll
+      e.preventDefault();
+      e.stopPropagation(); // Also stop propagation
+
+      // Smooth horizontal glide
+      gsap.to(container, {
+        scrollLeft: clamped,
+        duration: 0.2,
+        ease: "power2.out",
+      });
+    },
+    [],
+  );
+
+  return (
+    <DialogPortal data-slot="dialog-portal">
+      <DialogOverlay ref={overlayRef} />
+      <DialogPrimitive.Content
+        data-slot="dialog-content"
+        onWheel={handleWheel}
+        className={cn(
+          `
+          bg-[#F5E1CD]
+          fixed top-0 left-0 z-50
+          h-screen w-screen
+          overflow-hidden
+          p-6
+          rounded-[10px]
+          border shadow-lg
+          outline-none
+          overscroll-contain
+          `,
+          className,
+        )}
+        {...props}
+      >
+        {/* Horizontal Scroll Track */}
+        <div
+          ref={scrollContainerRef}
+          className="
+            flex h-full gap-4
+            overflow-x-auto overflow-y-hidden
+            scroll-smooth
+          "
+        >
+          {children}
+        </div>
+
+        {/* Close Button */}
+        {showCloseButton && (
+          <DialogPrimitive.Close
+            data-slot="dialog-close"
+            className="
+              absolute top-4 right-4
+              opacity-70 hover:opacity-100
+              transition-opacity
+            "
+          >
+            <XIcon />
+            <span className="sr-only">Close</span>
+          </DialogPrimitive.Close>
+        )}
+      </DialogPrimitive.Content>
+    </DialogPortal>
+  );
+}
+
+function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="dialog-header"
+      className={cn("flex flex-col gap-2 text-center sm:text-left", className)}
+      {...props}
+    />
+  )
+}
+
+function DialogFooter({
+  className,
+  showCloseButton = false,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & {
+  showCloseButton?: boolean
+}) {
+  return (
+    <div
+      data-slot="dialog-footer"
+      className={cn(
+        "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+        className
+      )}
+      {...props}
+    >
+      {children}
+      {showCloseButton && (
+        <DialogPrimitive.Close asChild>
+          <Button variant="outline">Close</Button>
+        </DialogPrimitive.Close>
+      )}
+    </div>
+  )
+}
+
+function DialogTitle({
+  className,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Title>) {
+  return (
+    <DialogPrimitive.Title
+      data-slot="dialog-title"
+      className={cn("text-lg leading-none font-semibold", className)}
+      {...props}
+    />
+  )
+}
+
+function DialogDescription({
+  className,
+  ...props
+}: React.ComponentProps<typeof DialogPrimitive.Description>) {
+  return (
+    <DialogPrimitive.Description
+      data-slot="dialog-description"
+      className={cn("text-muted-foreground text-sm", className)}
+      {...props}
+    />
+  )
+}
+
+export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+  ImgDialogContent,
+}
