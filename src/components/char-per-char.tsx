@@ -8,7 +8,7 @@ export const nok = localFont({
 });
 
 export const bringbold = localFont({
-  src: "../../public/fonts/bringbold-nineties.otf",
+  src: "../../public/fonts/bringbold-nineties.ttf",
   variable: "--font-bringbold",
   display: "swap",
 });
@@ -50,10 +50,12 @@ const textPattern = [
 
 type CharPerCharProps = {
   outline?: boolean,
+  color?: string,
 }
 
 export const CharPerChar = ({
   outline,
+  color="#FAB5C5"
 } : CharPerCharProps) => {
   return (
     <div className="flex items-baseline">
@@ -63,7 +65,7 @@ export const CharPerChar = ({
           className={cn(
             `${item.font} ${item.size}  ${item.spacing || ""}`,
             outline
-             ? "text-transparent [-webkit-text-stroke:2px_#FAB5C5]"
+             ? `text-transparent [-webkit-text-stroke:2px_#DF4346]`
              : "text-[#FAB5C5]" 
           )}
         >

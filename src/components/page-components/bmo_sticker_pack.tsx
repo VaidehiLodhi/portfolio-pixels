@@ -6,14 +6,14 @@ export const BmoStickerPack = () => {
     <div className="flex items-end justify-center">
       <Image
         src="/imgs/stickers/reveal-3/bmo_boi.gif"
-        height={212}
-        width={179}
+        height={182}
+        width={139}
         alt="bmo_boi"
       />
       <StickerPeel
         imageSrc="/imgs/stickers/reveal-3/lavendar.png"
-        height={178}
-        width={117}
+        height={148}
+        width={97}
         alt="flowey"
         rotate={-8}
         peelBackHoverPct={30}

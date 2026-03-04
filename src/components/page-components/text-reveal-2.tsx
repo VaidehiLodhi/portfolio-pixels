@@ -35,7 +35,13 @@ export const magnat_text_regular = localFont({
   display: "swap",
 });
 
-export const TextRevealComponent2 = () => {
+interface TextRevealComponent2Props {
+  timelineRef: { current: gsap.core.Timeline | null };
+}
+
+export const TextRevealComponent2 = ({
+  timelineRef
+} : TextRevealComponent2Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const freshthinkingRef = useRef<HTMLDivElement>(null);
   const creativeprojectsRef = useRef<HTMLDivElement>(null);
@@ -79,59 +85,48 @@ useGSAP(
       transformOrigin: "left center",
     });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 80%",
-        end: "top 30%",
-        scrub: 1,
-        toggleActions: "play none none reverse",
-        markers: true,
-      },
-    });
+    // paused — PinWheel will scrub progress()
+    const tl = gsap.timeline({ paused: true });
 
-    // LINE 1 chars
     tl.to(line1Chars, {
       scaleY: 1,
       rotationX: 0,
       duration: 1,
       stagger: 0.04,
       ease: "power2.out",
-    });
+    })
+      .to(
+        line2Chars,
+        {
+          scaleY: 1,
+          rotationX: 0,
+          duration: 1,
+          stagger: 0.04,
+          ease: "power2.out",
+        },
+        "-=0.6",
+      )
+      .to(
+        [highlight1Ref.current, highlight2Ref.current],
+        {
+          scaleX: 1,
+          duration: 0.8,
+          ease: "power2.inOut",
+        },
+        "-=0.8",
+      );
 
-    // LINE 2 chars (slightly overlaps)
-    tl.to(
-      line2Chars,
-      {
-        scaleY: 1,
-        rotationX: 0,
-        duration: 1,
-        stagger: 0.04,
-        ease: "power2.out",
-      },
-      "-=0.6",
-    );
-
-    // highlights grow *with* text, not after
-    tl.to(
-      [highlight1Ref.current, highlight2Ref.current],
-      {
-        scaleX: 1,
-        duration: 0.8,
-        ease: "power2.inOut",
-      },
-      "-=0.8",
-    );
+    // expose to PinWheel
+    timelineRef.current = tl;
   },
   { scope: containerRef },
 );
 
   return (
     <div
-      className="section h-screen w-full flex flex-col items-center justify-center bg-[#F5F4C7] overflow-clip"
+      className="card absolute top-1/2 left-1/2 h-[80%] w-[65%] rounded-[10px] flex flex-col items-center justify-center bg-[#F5F4C7] overflow-clip"
       style={{
-        transform: "rotate(30deg)",
-        transformOrigin: "bottom left",
+        transformOrigin: "center bottom",
         willChange: "transform",
       }}
     >
@@ -139,16 +134,16 @@ useGSAP(
         <div className="mb-0">
           {/* First line - "fresh thinking and creative projects" */}
           <div className="line1 block text-center px-5 md:text-center md:px-0">
-            <div className="flex items-baseline justify-center gap-x-10">
+            <div className="flex items-baseline justify-center gap-x-4">
               <span className="relative inline-block" ref={freshthinkingRef}>
                 <span
-                  className={`${magnat_text_regular.className} text-[56px] inline-block relative z-10`}
+                  className={`${magnat_text_regular.className} text-[36px] inline-block relative z-10`}
                 >
                   {splitTextIntoChars("Fresh Thinking")}
                 </span>
                 <div
                   ref={highlight1Ref}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-100 h-16 bg-[#E4CEFF]"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-62 h-12 bg-[#E4CEFF]"
                 />
                 <div
                   style={{
@@ -161,20 +156,20 @@ useGSAP(
               </span>
 
               <span
-                className={`${source_code.className} uppercase text-[40px] inline-block`}
+                className={`${source_code.className} uppercase text-[32px] inline-block`}
               >
                 {splitTextIntoChars("AND")}
               </span>
 
               <span className="relative inline-block" ref={creativeprojectsRef}>
                 <span
-                  className={`${magnat_text_regular.className} text-[56px] inline-block relative z-10`}
+                  className={`${magnat_text_regular.className} text-[36px] inline-block relative z-10`}
                 >
                   {splitTextIntoChars("Creative Projects")}
                 </span>
                 <div
                   ref={highlight2Ref}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-100 h-16 bg-[#CEDFFF]"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-74 h-12 bg-[#CEDFFF]"
                 />
               </span>
             </div>
@@ -187,12 +182,12 @@ useGSAP(
           >
             <span className="inline-block" ref={anymoreRef}>
               <span
-                className={`${housing.className} text-[64px] font-normal inline-block`}
+                className={`${housing.className} text-[54px] font-normal inline-block`}
               >
                 {splitTextIntoChars("A")}
               </span>
               <span
-                className={`${didot.className} text-[64px] italic inline-block`}
+                className={`${didot.className} text-[48px] italic inline-block`}
               >
                 {splitTextIntoChars("re what you seek")}
               </span>
@@ -200,7 +195,7 @@ useGSAP(
             <div
               style={{
                 transform: "translateX(50%) translateY(50%)",
-              }}  
+              }}
               className="absolute bottom-0 right-0 -translate-x-50 translate-y-10"
             >
               <PeaShooterStickerPack />

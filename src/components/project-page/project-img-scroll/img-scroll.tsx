@@ -18,7 +18,7 @@ export const departure_mono = localFont({
 });
 
 export const bringbold = localFont({
-  src: "../../../../public/fonts/bringbold-nineties.otf",
+  src: "../../../../public/fonts/bringbold-nineties.ttf",
   variable: "--font-bringbold",
   display: "swap",
 });
@@ -32,7 +32,7 @@ export function ImgScroll() {
       <ImgDialogContent
         className={`${departure_mono.className} text-[#332525] h-screen w-screen`}
       >
-        <div className="shrink-0 w-screen h-full bg-[#F5E1CD] flex items-center justify-center gap-x-5">
+        <div className="w-screen h-full bg-[#F5E1CD] flex items-center justify-center gap-x-5">
           <div className="flex flex-col gap-y-6">
             <p className="text-lg uppercase">[OVERVIEW]</p>
             <div
@@ -57,7 +57,7 @@ export function ImgScroll() {
             width={693.63}
           />
         </div>
-        <div className="shrink-0 w-screen h-full bg-[#F5E1CD] flex gap-x-16">
+        <div className="w-screen h-full bg-[#F5E1CD] flex gap-x-16">
           <div className="relative inline-block h-full">
             <Image
               src="/imgs/mockups/hive_mockups/clay_banks_japan.jpg"
@@ -106,7 +106,7 @@ export function ImgScroll() {
             <br />
           </p>
         </div>
-        <div className="shrink-0 w-screen h-full bg-[#F5E1CD] flex gap-x-16 items-end justify-center">
+        <div className="w-screen h-full bg-[#F5E1CD] flex gap-x-16 items-end justify-center">
           <Image
             src="/imgs/mockups/hive_mockups/isometric_perspective_hive.png"
             alt="isometric_perspective_hive"
@@ -135,7 +135,7 @@ export function ImgScroll() {
             </p>
           </div>
         </div>
-        <div className="shrink-0 w-screen h-full bg-[#F5E1CD] flex items-center justify-start">
+        <div className="w-screen h-full bg-[#F5E1CD] flex items-center justify-start">
           <div className="relative inline-block h-full">
             <Image
               src="/imgs/mockups/hive_mockups/macbook_whitebase.svg"
@@ -163,19 +163,24 @@ export function ImgScroll() {
               A fully draggable interface <br />
               that supports real time <br />
               action. <br />
-              Add lists, cards,<br/>
-              descriptions. <br/>
-              Let your mates update them.<br/>
+              Add lists, cards,
+              <br />
+              descriptions. <br />
+              Let your mates update them.
+              <br />
             </p>
             <p>
-              Utilise the kanban to <br/>
-              full potential, <br/>
-              drag all components until<br/>
-              they make sense to you.<br/>
+              Utilise the kanban to <br />
+              full potential, <br />
+              drag all components until
+              <br />
+              they make sense to you.
+              <br />
             </p>
             <p>
-                The kanban way of doing things <br/>
-                gets a lot done.<br/>
+              The kanban way of doing things <br />
+              gets a lot done.
+              <br />
             </p>
           </div>
         </div>

@@ -6,10 +6,10 @@ export const RickStickerPack = () => {
     <div className="flex items-center justify-center">
       <StickerPeel
         imageSrc="/imgs/stickers/reveal-4/morty_babu.png"
-        height={143.95}
-        width={103.71}
+        height={123.95}
+        width={93.71}
         alt="morty"
-        rotate={-8}
+        rotate={-20}
         peelBackHoverPct={30}
         peelBackActivePct={50}
         shadowIntensity={0.2}
@@ -17,7 +17,7 @@ export const RickStickerPack = () => {
       />
       <StickerPeel
         imageSrc="/imgs/stickers/reveal-4/ricku_babu.png"
-        height={147.26}
+        height={137.26}
         width={94.87}
         alt="rick"
         rotate={8}

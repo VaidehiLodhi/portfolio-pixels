@@ -13,8 +13,8 @@ export const Highlight1 = () => {
         />
         <Image
           src="/imgs/stickers/reveal-1/powerpuff.png"
-          height={132}
-          width={152}
+          height={122}
+          width={142}
           alt="powerpuff"
           className="absolute -top-8 right-0 translate-x-10"
         />

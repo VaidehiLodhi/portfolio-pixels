@@ -16,7 +16,7 @@ export const departure_mono = localFont({
 
 export const MessageMeBlock =()=> {
     return (
-      <div className="flex flex-col items-center w-full justify-center pt-12 text-[#FAB5C5]">
+      <div className="flex flex-col items-center w-full justify-center pt-12 text-[#DF4346]">
         <div className="flex flex-col w-full gap-0 items-start justify-center pb-5 pl-15">
           <div
             className={`${magnat_text_regular.className} leading-none text-left text-[34px]`}

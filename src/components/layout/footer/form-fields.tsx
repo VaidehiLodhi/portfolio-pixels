@@ -97,7 +97,7 @@ export const FormFields = () => {
     console.log("Form submitted:", formData);
   };
 
-  const textareaClassName = `w-full rounded-[10px] ${magnat_text_regular.className} focus:outline-none focus:border-[2.5px] focus:border-[#FAB5C5] transition-all duration-200`;
+  const textareaClassName = `w-full rounded-[10px] ${magnat_text_regular.className} focus:outline-none focus:border-[2.5px] focus:border-[#DF4346] transition-all duration-200`;
 
   return (
     <form
@@ -115,7 +115,7 @@ export const FormFields = () => {
             }
             aria-invalid={!!errors.name}
             onBlur={() => handleBlur("name")}
-            className={`w-full rounded-[10px] ${magnat_text_regular.className} text-[16px] placeholder:text-[#FAB5C5] focus:outline-none focus:border-[2.5px] focus:border-[#FAB5C5] transition-all duration-200`}
+            className={`w-full rounded-[10px] ${magnat_text_regular.className} text-[16px] focus:outline-none focus:border-[2.5px] focus:border-[#DF4346] transition-all duration-200`}
           />
           <div className="h-5.5">
             {errors.name && (
@@ -134,7 +134,7 @@ export const FormFields = () => {
             }
             aria-invalid={!!errors.email}
             onBlur={() => handleBlur("email")}
-            className={`w-full rounded-[10px] ${magnat_text_regular.className} text-[16px] placeholder:text-[#FAB5C5] focus:outline-none focus:border-[2.5px] focus:border-[#FAB5C5] transition-all duration-200`}
+            className={`w-full rounded-[10px] ${magnat_text_regular.className} text-[16px] placeholder:text-[#DF4346] focus:outline-none focus:border-[2.5px] focus:border-[#DF4346] transition-all duration-200`}
           />
           <div className="h-5.5">
             {errors.email && (
@@ -159,7 +159,7 @@ export const FormFields = () => {
         size="footer"
         type="submit"
         variant="footer"
-        className={`${departure_mono.className} bg-[#FAB5C5] text-[#DF4346] text-[14px] mt-4 w-90`}
+        className={`${departure_mono.className} bg-[#DF4346] text-[#FAB5C5] text-[14px] mt-4 w-90`}
       >
         Drop it in &lt;3
       </Button>

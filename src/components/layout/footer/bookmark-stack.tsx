@@ -15,7 +15,7 @@ export const BookmarkStack =()=> {
         >
           <PinkBookmark />
         </div>
-        <div className="relative z-10">
+        <div className="relative z-10 transition-transform duration-300 hover:-rotate-[10deg]">
           <BeigeBookmark />
         </div>
       </div>
