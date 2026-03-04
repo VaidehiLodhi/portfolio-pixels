@@ -4,7 +4,7 @@ import { MessageMeBlock } from "./message-me-block"
 
 export const FooterBlock =()=> {
     return (
-        <div className="grid grid-cols-2 min-h-screen">
+        <div className="grid grid-cols-2 min-h-screen bg-[#FAB5C5]">
             <div className="col-start-1 relative">
                 <div className="absolute top-15 left-10 rotate-[-13.55deg]">
                     <GuestCheck/>

@@ -20,7 +20,7 @@ function TextareaFooter({ className, ...props }: React.ComponentProps<"textarea"
     <textarea
       data-slot="textarea"
       className={cn(
-        "border-[#FAB5C5] placeholder:text-[#FAB5C5] placeholder:text-[14px] focus-visible:border-[#FAB5C5] focus-visible:ring-[#FAB5C5]/50 aria-invalid:ring-[#930A0C]/20 aria-invalid:border-[#930A0C] py-3 px-4 flex field-sizing-content min-h-16 w-full border bg-transparent text-[#FAB5C5] transition-[color,box-shadow] outline-none focus-visible:ring-[2px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+        "border-[#DF4346] placeholder:text-[#DF4346] placeholder:text-[14px] focus-visible:border-[#DF4346] focus-visible:ring-[#DF4346]/50 aria-invalid:ring-[#930A0C]/20 aria-invalid:border-[#930A0C] py-3 px-4 flex field-sizing-content min-h-16 w-full border bg-transparent text-[#DF4346] transition-[color,box-shadow] outline-none focus-visible:ring-[2px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
         className,
       )}
       {...props}

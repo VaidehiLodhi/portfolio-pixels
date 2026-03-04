@@ -36,7 +36,13 @@ export const magnat_text_regular = localFont({
   display: "swap",
 });
 
-export const TextRevealComponent3 = () => {
+interface TextRevealComponent3Props {
+  timelineRef: { current: gsap.core.Timeline | null };
+}
+
+export const TextRevealComponent3 = ({
+  timelineRef
+} : TextRevealComponent3Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isntfunRef = useRef<HTMLDivElement>(null);
   const anymoreRef = useRef<HTMLDivElement>(null);
@@ -64,7 +70,6 @@ useGSAP(
     const line2Chars = containerRef.current.querySelectorAll(".line2 .char");
     const line3Chars = containerRef.current.querySelectorAll(".line3 .char");
 
-    // ---------- INITIAL STATE ----------
     gsap.set(containerRef.current, { perspective: 800 });
 
     gsap.set([...line1Chars, ...line2Chars, ...line3Chars], {
@@ -78,40 +83,29 @@ useGSAP(
       transformOrigin: "left center",
     });
 
-    // ---------- LINE 1 ----------
-    gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: ".line1",
-          start: "top 80%",
-          toggleActions: "play none none reverse",
+    // paused — PinWheel will scrub progress()
+    const tl = gsap.timeline({ paused: true });
+
+    // line 1
+    tl.to(line1Chars, {
+      scaleY: 1,
+      rotationX: 0,
+      duration: 0.8,
+      stagger: 0.05,
+      ease: "power2.out",
+    })
+      // line 2 + highlight
+      .to(
+        line2Chars,
+        {
+          scaleY: 1,
+          rotationX: 0,
+          duration: 0.8,
+          stagger: 0.05,
+          ease: "power2.out",
         },
-      })
-      .to(line1Chars, {
-        scaleY: 1,
-        rotationX: 0,
-        duration: 0.8,
-        stagger: 0.05,
-        ease: "power2.out",
-      });
-
-    // ---------- LINE 2 (TEXT → HIGHLIGHT) ----------
-    const line2TL = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".line2",
-        start: "top 80%",
-        toggleActions: "play none none reverse",
-      },
-    });
-
-    line2TL
-      .to(line2Chars, {
-        scaleY: 1,
-        rotationX: 0,
-        duration: 0.8,
-        stagger: 0.05,
-        ease: "power2.out",
-      })
+        "-=0.4",
+      )
       .to(
         highlight1Ref.current,
         {
@@ -120,25 +114,19 @@ useGSAP(
           ease: "power2.inOut",
         },
         ">-0.1",
-      );
-
-    // ---------- LINE 3 (TEXT → HIGHLIGHT) ----------
-    const line3TL = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".line3",
-        start: "top 80%",
-        toggleActions: "play none none reverse",
-      },
-    });
-
-    line3TL
-      .to(line3Chars, {
-        scaleY: 1,
-        rotationX: 0,
-        duration: 0.8,
-        stagger: 0.05,
-        ease: "power2.out",
-      })
+      )
+      // line 3 + highlight
+      .to(
+        line3Chars,
+        {
+          scaleY: 1,
+          rotationX: 0,
+          duration: 0.8,
+          stagger: 0.05,
+          ease: "power2.out",
+        },
+        "-=0.4",
+      )
       .to(
         highlight2Ref.current,
         {
@@ -147,18 +135,8 @@ useGSAP(
           ease: "power2.inOut",
         },
         ">-0.1",
-      );
-
-    // parallax thimgs
-    gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 80%",
-          end: "top 20%",
-          scrub: true,
-        },
-      })
+      )
+      // parallax
       .to(
         isntfunRef.current,
         {
@@ -175,16 +153,18 @@ useGSAP(
         },
         0,
       );
+
+    // expose to PinWheel
+    timelineRef.current = tl;
   },
   { scope: containerRef },
 );
 
   return (
     <div
-      className="section h-screen w-full flex flex-col items-center justify-center bg-[#D0F5C7] overflow-clip"
+      className="card absolute top-1/2 left-1/2 h-[80%] w-[65%] rounded-[10px] flex flex-col items-center justify-center bg-[#D0F5C7] overflow-clip"
       style={{
-        transform: "rotate(30deg)",
-        transformOrigin: "bottom left",
+        transformOrigin: "center bottom",
         willChange: "transform",
       }}
     >
@@ -193,7 +173,7 @@ useGSAP(
           {/* First line - "so, if normal" */}
           <span className="line1 block text-right pr-5 md:text-center md:pr-0">
             <span
-              className={`${source_code.className} uppercase text-[40px] inline-block`}
+              className={`${source_code.className} uppercase text-[30px] inline-block`}
               style={{ transform: "translate(20%, 0%)" }}
             >
               {splitTextIntoChars("then i'll bring")}
@@ -207,20 +187,20 @@ useGSAP(
           >
             <span className="relative inline-block" ref={isntfunRef}>
               <span
-                className={`${magnat_text_regular.className} text-[84px] inline-block relative z-10`}
+                className={`${magnat_text_regular.className} text-[64px] inline-block relative z-10`}
               >
                 {splitTextIntoChars("The skills")}
               </span>
               <div
                 ref={highlight1Ref}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-100 h-16 bg-[#76FF02]"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-75 h-14 bg-[#76FF02]"
               />
             </span>
 
             {/* radish sticker comes here */}
             <div
               style={{
-                transform: "translateX(50%) translateY(50%)",
+                transform: "translateX(10%) translateY(55%)",
               }}
               className="absolute right-1/2 bottom-0 translate-x-55 -translate-y-15"
               // right-0 aligns the right edge of the absolute element with the right edge of the parent
@@ -228,8 +208,8 @@ useGSAP(
             >
               <StickerPeel
                 imageSrc="/imgs/stickers/reveal-3/radish.png"
-                height={165.78}
-                width={101.92}
+                height={135.78}
+                width={81.92}
                 alt="radish_sticker"
                 rotate={-8}
                 peelBackHoverPct={20}
@@ -243,34 +223,34 @@ useGSAP(
           {/* Third line - "Anymore" */}
           <span
             className="line3 block relative mt-[0.1em] text-center"
-            style={{ transform: "translate(12%, 0%)" }}
+            style={{ transform: "translate(10%, 0%)" }}
           >
             <span className="inline-block" ref={anymoreRef}>
               <span
-                className={`${housing.className} text-[64px] font-normal inline-block`}
+                className={`${housing.className} text-[54px] font-normal inline-block`}
               >
                 {splitTextIntoChars("T")}
               </span>
               <span
-                className={`${didot.className} text-[64px] italic inline-block`}
+                className={`${didot.className} text-[45px] italic inline-block`}
               >
                 {splitTextIntoChars("o capture ")}
               </span>
               <span className="relative inline-block">
                 <span
-                  className={`${didot.className} relative z-10 text-[64px] italic inline-block`}
+                  className={`${didot.className} relative z-10 text-[45px] italic inline-block`}
                 >
                   {splitTextIntoChars("meaning")}
                 </span>
                 <div
                   ref={highlight2Ref}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-60 h-16 bg-[#E4CEFF]"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-40 h-14 bg-[#E4CEFF]"
                 />
               </span>
             </span>
 
             {/* bmo sticker pack here */}
-            <div className="absolute left-0 top-0 -translate-x-10 -translate-y-10">
+            <div className="absolute left-0 top-0 -translate-x-12 -translate-y-10">
               <BmoStickerPack />
             </div>
           </span>

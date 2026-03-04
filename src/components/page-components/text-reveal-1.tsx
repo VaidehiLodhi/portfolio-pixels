@@ -36,7 +36,13 @@ export const magnat_text_regular = localFont({
   display: "swap",
 });
 
-export const TextRevealComponent1 = () => {
+interface TextRevealComponent1Props {
+  timelineRef: { current: gsap.core.Timeline | null };
+}
+
+export const TextRevealComponent1 = ({
+  timelineRef
+} : TextRevealComponent1Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isntfunRef = useRef<HTMLDivElement>(null);
   const anymoreRef = useRef<HTMLDivElement>(null);
@@ -78,62 +84,47 @@ useGSAP(
       clipPath: "inset(0% 100% 0% 0%)",
     });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 80%",
-        end: "top 25%",
-        scrub: 1,
-        toggleActions: "play none none reverse",
-        markers: true,
-      },
-    });
+    // paused — PinWheel will scrub progress()
+    const tl = gsap.timeline({ paused: true });
 
-    // line 1
     tl.to(line1Chars, {
       scaleY: 1,
       rotationX: 0,
       duration: 1,
       stagger: 0.04,
       ease: "power2.out",
-    });
-
-    // line 2
-    tl.to(
-      line2Chars,
-      {
-        scaleY: 1,
-        rotationX: 0,
-        duration: 1,
-        stagger: 0.04,
-        ease: "power2.out",
-      },
-      "-=0.6",
-    );
-
-    // line 3
-    tl.to(
-      line3Chars,
-      {
-        scaleY: 1,
-        rotationX: 0,
-        duration: 1,
-        stagger: 0.04,
-        ease: "power2.out",
-      },
-      "-=0.5",
-    );
-
-    // highlight + lateral motion (emotional beat)
-    tl.to(
-      highlightRef.current,
-      {
-        clipPath: "inset(0% 0% 0% 0%)", // reveals fully
-        duration: 1,
-        ease: "power1.out",
-      },
-      "-=0.8",
-    )
+    })
+      .to(
+        line2Chars,
+        {
+          scaleY: 1,
+          rotationX: 0,
+          duration: 1,
+          stagger: 0.04,
+          ease: "power2.out",
+        },
+        "-=0.6",
+      )
+      .to(
+        line3Chars,
+        {
+          scaleY: 1,
+          rotationX: 0,
+          duration: 1,
+          stagger: 0.04,
+          ease: "power2.out",
+        },
+        "-=0.5",
+      )
+      .to(
+        highlightRef.current,
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          duration: 1,
+          ease: "power1.out",
+        },
+        "-=0.8",
+      )
       .to(
         isntfunRef.current,
         {
@@ -150,6 +141,9 @@ useGSAP(
         },
         "<",
       );
+
+    // expose to PinWheel
+    timelineRef.current = tl;
   },
   { scope: containerRef },
 );
@@ -157,10 +151,9 @@ useGSAP(
 
   return (
     <div
-      className="section h-screen w-full flex flex-col items-center justify-center bg-[#FAB5C5] overflow-clip"
+      className="card absolute top-1/2 left-1/2 h-[80%] w-[65%] rounded-[10px] flex flex-col items-center justify-center bg-[#FAB5C5] overflow-clip"
       style={{
-        transform: "rotate(30deg)",
-        transformOrigin: "bottom left",
+        transformOrigin: "center bottom",
         willChange: "transform",
       }}
     >
@@ -169,7 +162,7 @@ useGSAP(
           {/* First line - "so, if normal" */}
           <span className="line1 relative block text-right pr-5 md:text-center md:pr-0">
             <span
-              className={`${source_code.className} uppercase text-[40px] inline-block`}
+              className={`${source_code.className} uppercase text-[30px] inline-block`}
               style={{ transform: "translate(20%, 0%)" }}
             >
               {splitTextIntoChars("so, if normal")}
@@ -181,14 +174,14 @@ useGSAP(
               style={{
                 transform: "translateX(-50%) translateY(-50%)",
               }}
-              className="absolute top-1/2 left-1/2 -translate-y-10 -translate-x-50"
+              className="absolute top-1/2 left-1/2 -translate-y-5 -translate-x-50 z-10"
             >
               <StickerPeel
                 imageSrc="/imgs/stickers/reveal-1/kato_pixel_boi.png"
-                width={94}
-                height={196}
+                width={74}
+                height={156}
                 alt="kato_sticker"
-                rotate={5}
+                rotate={-10}
                 peelBackHoverPct={20}
                 peelBackActivePct={40}
                 shadowIntensity={0}
@@ -204,7 +197,7 @@ useGSAP(
           >
             <span className="relative inline-block" ref={isntfunRef}>
               <span
-                className={`${magnat_text_regular.className} text-[84px] lowercase inline-block relative z-10`}
+                className={`${magnat_text_regular.className} text-[64px] lowercase inline-block relative z-10`}
               >
                 {splitTextIntoChars("isn't fun")}
               </span>
@@ -228,16 +221,16 @@ useGSAP(
           {/* Third line - "Anymore" */}
           <span
             className="line3 block relative mt-[0.1em] text-center"
-            style={{ transform: "translate(12%, 0%)" }}
+            style={{ transform: "translate(-10%, 0%)" }}
           >
-            <span className="inline-block" ref={anymoreRef}>
+            <span className="flex justify-center items-baseline" ref={anymoreRef}>
               <span
-                className={`${housing.className} text-[64px] font-normal inline-block`}
+                className={`${housing.className} text-[54px] font-normal inline-block`}
               >
                 {splitTextIntoChars("A")}
               </span>
               <span
-                className={`${didot.className} text-[64px] italic inline-block`}
+                className={`${didot.className} text-[48px] italic inline-block`}
               >
                 {splitTextIntoChars("nymore")}
               </span>
@@ -246,14 +239,14 @@ useGSAP(
             {/* jax sticker comes here */}
             <div
               style={{
-                transform: "translateX(-50%) translateY(-50%)",
+                transform: "translateX(100%) translateY(-60%)",
               }}
               className="absolute top-1/2 left-1/2 -translate-x-50"
             >
               <StickerPeel
                 imageSrc="/imgs/stickers/reveal-1/jax_rabbit.png"
-                width={120.15}
-                height={141.6}
+                width={110.15}
+                height={131.6}
                 rotate={0}
                 peelBackHoverPct={20}
                 peelBackActivePct={40}

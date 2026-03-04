@@ -6,8 +6,8 @@ export const PlantinoStickerPack = () => {
     <div className="flex items-end justify-center">
       <StickerPeel
         imageSrc="/imgs/stickers/reveal-2/cactus.png"
-        height={161.96}
-        width={79.09}
+        height={131.96}
+        width={59.09}
         alt="cactus"
         rotate={-8}
         peelBackHoverPct={10}
@@ -17,8 +17,8 @@ export const PlantinoStickerPack = () => {
       />
       <Image
         src="/imgs/stickers/reveal-2/snol_leaf.png"
-        height={82}
-        width={75}
+        height={72}
+        width={65}
         alt="snol_leaf"
         className="rotate-9"
       />

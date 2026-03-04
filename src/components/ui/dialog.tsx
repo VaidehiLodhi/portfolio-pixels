@@ -58,14 +58,6 @@ function DialogContent({
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
 }) {
-  // Add body scroll lock here too
-  React.useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
-  }, []);
 
   return (
     <DialogPortal data-slot="dialog-portal">
@@ -96,7 +88,12 @@ function DialogContent({
   );
 }
 
-gsap.registerPlugin(ScrollTrigger);
+// 1. stack all slides panels vertically in a tall wrapper
+// 2. the outer container is overflow: hidden - no native scroll is possible
+// 3. lenis intercepts wheel events, accumulates a targetY, lerps currentY toward it each RAF frame
+// 4. apply the position as transform: translateY(-currentY px) on tall wrapper
+// 5. to make it horizontal, we rotate the outer container rotate(90deg) and counter rotate each child -rotate(90deg) so content stays upright - exactly what unseen.co does
+
 
 function ImgDialogContent({
   className,
@@ -107,73 +104,65 @@ function ImgDialogContent({
   showCloseButton?: boolean;
 }) {
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
-  const overlayRef = React.useRef<HTMLDivElement>(null);
+  const currentY = React.useRef(0);
+  const targetY = React.useRef(0);
+  const rafRef = React.useRef<number>(0);
+  const LERP_FACTOR = 0.08; 
+  
+ React.useEffect(() => {
+   // lock body
+   const originalOverflow = document.body.style.overflow;
+   //document.body.style.overflow = "hidden";
 
-  /* ---------------- Body Scroll Lock + Pause Lenis ---------------- */
-  React.useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+   // calculate max scroll
+   const getMaxScroll = () => {
+     const el = scrollContainerRef.current;
+     if (!el) return 0;
+     return el.scrollHeight - window.innerHeight;
+   };
 
-    // Pause Lenis smooth scroll
-    const lenis = (window as any).lenis;
-    if (lenis) {
-      lenis.stop();
-    }
+   // RAF loop : lerp currentY toward targetY each frame
+   const tick = () => {
+     const diff = targetY.current - currentY.current;
+     if (Math.abs(diff) < 0.01) {
+       currentY.current = targetY.current;
+     } else {
+       currentY.current += diff * LERP_FACTOR;
+     }
 
-    // Prevent wheel events on the entire document
-    const preventScroll = (e: WheelEvent) => {
-      // Only prevent if not scrolling inside our dialog
-      if (!scrollContainerRef.current?.contains(e.target as Node)) {
-        e.preventDefault();
-      }
-    };
+     if (scrollContainerRef.current) {
+       scrollContainerRef.current.style.transform = `translateY(${-currentY.current}px)`;
+     }
+     rafRef.current = requestAnimationFrame(tick);
+   };
+   rafRef.current = requestAnimationFrame(tick);
 
-    document.addEventListener("wheel", preventScroll, { passive: false });
+   // wheel handler : accumulate into targetY
+   const handleWheel = (e: WheelEvent) => {
+     e.preventDefault();
+     const max = getMaxScroll();
+     targetY.current = Math.max(
+       0,
+       Math.min(targetY.current + e.deltaY * 1.2, max),
+     );
+   };
 
-    return () => {
-      document.body.style.overflow = originalOverflow;
-      document.removeEventListener("wheel", preventScroll);
+   window.addEventListener("wheel", handleWheel, { passive: false });
 
-      // Resume Lenis
-      if (lenis) {
-        lenis.start();
-      }
-    };
-  }, []);
-
-  /* ---------------- Wheel → Horizontal Scroll ---------------- */
-  const handleWheel = React.useCallback(
-    (e: React.WheelEvent<HTMLDivElement>) => {
-      const container = scrollContainerRef.current;
-      if (!container) return;
-
-      const SCROLL_SPEED = 3;
-      const maxScroll = container.scrollWidth - container.clientWidth;
-      const nextScroll = container.scrollLeft + e.deltaY * SCROLL_SPEED;
-
-      // Clamp within bounds
-      const clamped = Math.max(0, Math.min(nextScroll, maxScroll));
-
-      // Prevent vertical page scroll
-      e.preventDefault();
-      e.stopPropagation(); // Also stop propagation
-
-      // Smooth horizontal glide
-      gsap.to(container, {
-        scrollLeft: clamped,
-        duration: 0.2,
-        ease: "power2.out",
-      });
-    },
-    [],
-  );
+   return () => {
+     document.body.style.overflow = originalOverflow;
+     window.removeEventListener("wheel", handleWheel);
+     cancelAnimationFrame(rafRef.current);
+     currentY.current = 0;
+     targetY.current = 0;
+   };
+ }, []);
 
   return (
     <DialogPortal data-slot="dialog-portal">
-      <DialogOverlay ref={overlayRef} />
+      <DialogOverlay/>
       <DialogPrimitive.Content
         data-slot="dialog-content"
-        onWheel={handleWheel}
         className={cn(
           `
           bg-[#F5E1CD]
@@ -184,22 +173,52 @@ function ImgDialogContent({
           rounded-[10px]
           border shadow-lg
           outline-none
-          overscroll-contain
           `,
           className,
         )}
         {...props}
       >
-        {/* Horizontal Scroll Track */}
+        {/* 
+          Viewport: rotated 90deg clockwise.
+          "down" on screen now points "right" visually.
+          We give it the same dimensions as thes creen but rotated.
+        */}
         <div
-          ref={scrollContainerRef}
-          className="
-            flex h-full gap-4
-            overflow-x-auto overflow-y-hidden
-            scroll-smooth
-          "
+          className="absolute"
+          style={{
+            width: '100vh',
+            height: '100vw',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%) rotate(-90deg)',
+            transformOrigin: 'center center',
+          }}
         >
-          {children}
+          {/*
+            The track: tall enough to hold all slides.
+            translateY is what Lenis will drive.
+          */}
+          <div
+            ref={scrollContainerRef}
+            className="flex flex-col will-change-transform"
+            style={{
+              transform: 'translateY(0px)'
+            }}
+          >
+            {/* each child needs to be counter-rotated */}
+            {React.Children.map(children, (child) => (
+              <div
+                style={{
+                  width: '100vh',
+                  height: '100vw',
+                  transform: 'rotate(90deg)',
+                  transformOrigin: 'center center',
+                }}
+              >
+                {child}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Close Button */}

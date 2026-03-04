@@ -3,10 +3,13 @@ import { Geist, Geist_Mono, Source_Code_Pro } from "next/font/google";
 import "../globals.css";
 import { cn } from "@/lib/utils";
 import { TextMarquee } from "@/components/text-marquee";
-import { ScrollRevealBg } from "@/components/layout/scroll-bg";
+import { ScrollBg } from "@/components/layout/scroll-bg";
 import localFont from "next/font/local";
 import { HorizontalScrollSection } from "@/components/page-components/horizontal-scroll";
 import { FooterBlock } from "@/components/layout/footer/footer-block";
+import { PinWheel } from "@/components/page-components/pinwheel";
+import { url } from "inspector";
+import { CharPerChar } from "@/components/char-per-char";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -66,12 +69,12 @@ export default function RootLayout({
           "bg-[#DF4346] overflow-x-hidden",
         )}
       >
-        <ScrollRevealBg />
+        <ScrollBg />
         <TextMarquee />
         <main>{children}</main>
-        <HorizontalScrollSection />
+        <PinWheel />
         <FooterBlock />
-        <TextMarquee />
+        <TextMarquee outline={true} bgColor="#FAB5C5"/>
       </body>
     </html>
   );

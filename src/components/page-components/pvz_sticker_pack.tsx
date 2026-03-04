@@ -6,8 +6,8 @@ export const PeaShooterStickerPack = () => {
     <div className="flex items-end justify-center">
       <StickerPeel
         imageSrc="/imgs/stickers/reveal-2/pea_shooter.png"
-        height={184.85}
-        width={147.25}
+        height={154.85}
+        width={117.25}
         alt="pea_shooter"
         rotate={-8}
         peelBackHoverPct={5}
@@ -17,8 +17,8 @@ export const PeaShooterStickerPack = () => {
       />
       <StickerPeel
         imageSrc="/imgs/stickers/reveal-2/flowey.png"
-        height={214.73}
-        width={164.95}
+        height={174.73}
+        width={124.95}
         alt="flowey"
         rotate={-8}
         peelBackHoverPct={5}

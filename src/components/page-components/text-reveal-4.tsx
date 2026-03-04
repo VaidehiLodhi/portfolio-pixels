@@ -35,7 +35,13 @@ export const magnat_text_regular = localFont({
   display: "swap",
 });
 
-export const TextRevealComponent4 = () => {
+interface TextRevealComponent4Props {
+  timelineRef: { current: gsap.core.Timeline | null };
+}
+
+export const TextRevealComponent4 = ({
+  timelineRef,
+}: TextRevealComponent4Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const needRef = useRef<HTMLDivElement>(null);
   const executionRef = useRef<HTMLDivElement>(null);
@@ -49,23 +55,18 @@ export const TextRevealComponent4 = () => {
 
   useEffect(() => {
     fetch("/imgs/bg/scribble.svg")
-        .then(res => res.text())
-        .then(svgText => {
-            const parser = new DOMParser();
-            const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
-            const pathElement = svgDoc.querySelector("path");
-            const svgElement = svgDoc.querySelector("svg");
-
-            if (pathElement) {
-              setScribblePath(pathElement.getAttribute("d") || "");
-            }
-            if (svgElement) {
-              setViewBox(svgElement.getAttribute("viewBox") || "0 0 200 100");
-            }
-        })
+      .then((res) => res.text())
+      .then((svgText) => {
+        const parser = new DOMParser();
+        const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+        const pathElement = svgDoc.querySelector("path");
+        const svgElement = svgDoc.querySelector("svg");
+        if (pathElement) setScribblePath(pathElement.getAttribute("d") || "");
+        if (svgElement)
+          setViewBox(svgElement.getAttribute("viewBox") || "0 0 200 100");
+      });
   }, []);
 
-  // split text into words and then characters
   const splitTextIntoChars = (text: string) => {
     return text.split("").map((char, index) => (
       <span
@@ -86,7 +87,6 @@ export const TextRevealComponent4 = () => {
       const line2Chars = containerRef.current.querySelectorAll(".line2 .char");
       const line3Chars = containerRef.current.querySelectorAll(".line3 .char");
 
-      // ---------- INITIAL STATE ----------
       gsap.set(containerRef.current, { perspective: 800 });
 
       gsap.set([...line1Chars, ...line2Chars, ...line3Chars], {
@@ -100,152 +100,113 @@ export const TextRevealComponent4 = () => {
         transformOrigin: "left center",
       });
 
-      if (scribbleRef.current) {
-        const len = scribbleRef.current.getTotalLength();
-        gsap.set(scribbleRef.current, {
-          strokeDasharray: len,
-          strokeDashoffset: len,
-        });
-      }
-
       gsap.set(deservesRef.current, {
         opacity: 0,
         scale: 0.8,
       });
 
-      // ---------- LINE 1 ----------
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: ".line1",
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        })
-        .to(line1Chars, {
-          scaleY: 1,
-          rotationX: 0,
-          duration: 0.8,
-          stagger: 0.05,
-          ease: "power2.out",
+      // scribble initial state — only possible once scribblePath has loaded
+      const scribbleLength = scribbleRef.current?.getTotalLength() ?? 0;
+      if (scribbleRef.current && scribbleLength > 0) {
+        gsap.set(scribbleRef.current, {
+          strokeDasharray: scribbleLength,
+          strokeDashoffset: scribbleLength,
         });
+      }
 
-      // LINE 2 (TEXT → SCRIBBLE → HIGHLIGHT → WORD) 
-  // LINE 2 (TEXT → SCRIBBLE → HIGHLIGHT → WORD) 
-const line2TL = gsap.timeline({
-  scrollTrigger: {
-    trigger: ".line2",
-    start: "top 80%",
-    toggleActions: "play none none reverse"
-  },
-});
+      // paused — PinWheel will scrub progress()
+      const tl = gsap.timeline({ paused: true });
 
-const scribbleLength = scribbleRef.current?.getTotalLength() || 1000;
+      // line 1
+      tl.to(line1Chars, {
+        scaleY: 1,
+        rotationX: 0,
+        duration: 0.8,
+        stagger: 0.05,
+        ease: "power2.out",
+      })
+        // line 2 text
+        .to(
+          line2Chars,
+          {
+            scaleY: 1,
+            rotationX: 0,
+            duration: 0.8,
+            stagger: 0.05,
+            ease: "power2.out",
+          },
+          "-=0.4",
+        );
 
-line2TL
-  // revealing the "need"
-  .fromTo(
-    line2Chars,
-    {
-      scaleY: 0.01,
-      rotationX: -90,
-    },
-    {
-      scaleY: 1,
-      rotationX: 0,
-      duration: 0.8,
-      stagger: 0.05,
-      ease: "power2.out",
-    },
-  )
-  // drawing the scribble
-  .fromTo(
-    scribbleRef.current,
-    {
-      strokeDasharray: scribbleLength,
-      strokeDashoffset: scribbleLength, // Start hidden
-    },
-    {
-      strokeDasharray: scribbleLength,
-      strokeDashoffset: 0, // End visible
-      duration: 1.1,
-      ease: "power1.inOut",
-    },
-    ">-0.2",
-  )
-  // move "need" to left
-  .fromTo(
-    needRef.current,
-    { x: 0 },
-    {
-      x: -120,
-      duration: 0.6,
-      ease: "power2.out",
-    },
-    ">",
-  )
-  .fromTo(
-    deservesRef.current,
-    {
-      opacity: 0,
-      scale: 0.8,
-    },
-    {
-      opacity: 1,
-      scale: 1,
-      duration: 0.5,
-      ease: "power2.out",
-    },
-    "<",
-  )
-  .fromTo(
-    highlight1Ref.current,
-    { scaleX: 0 },
-    {
-      scaleX: 1,
-      duration: 0.6,
-      ease: "power2.inOut",
-    },
-    ">",
-  );
+      // scribble draw — only add if path is loaded
+      if (scribbleRef.current && scribbleLength > 0) {
+        tl.fromTo(
+          scribbleRef.current,
+          {
+            strokeDasharray: scribbleLength,
+            strokeDashoffset: scribbleLength,
+          },
+          {
+            strokeDashoffset: 0,
+            duration: 1.1,
+            ease: "power1.inOut",
+          },
+          ">-0.2",
+        );
+      }
 
-      // line bou
-      const line3TL = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".line3",
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      line3TL
-        .to(line3Chars, {
-          scaleY: 1,
-          rotationX: 0,
-          duration: 0.8,
-          stagger: 0.05,
-          ease: "power2.out",
-        })
+      tl
+        // "need" slides left
+        .fromTo(
+          needRef.current,
+          { x: 0 },
+          { x: -120, duration: 0.6, ease: "power2.out" },
+          ">",
+        )
+        // "deserve" fades in
+        .fromTo(
+          deservesRef.current,
+          { opacity: 0, scale: 0.8 },
+          { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" },
+          "<",
+        )
+        // highlight 1 grows
+        .fromTo(
+          highlight1Ref.current,
+          { scaleX: 0 },
+          { scaleX: 1, duration: 0.6, ease: "power2.inOut" },
+          ">",
+        )
+        // line 3
+        .to(
+          line3Chars,
+          {
+            scaleY: 1,
+            rotationX: 0,
+            duration: 0.8,
+            stagger: 0.05,
+            ease: "power2.out",
+          },
+          "-=0.4",
+        )
         .to(
           highlight2Ref.current,
-          {
-            scaleX: 1,
-            duration: 0.4,
-            ease: "power2.inOut",
-          },
+          { scaleX: 1, duration: 0.4, ease: "power2.inOut" },
           ">-0.1",
         );
+
+      // expose to PinWheel
+      timelineRef.current = tl;
     },
+    // rebuild timeline when scribblePath loads so getTotalLength() is valid
     { scope: containerRef, dependencies: [scribblePath] },
   );
 
-
   return (
     <div
-      className="section h-screen w-full flex flex-col items-center justify-center bg-[#F0FAFF] overflow-clip"
+      className="card absolute top-1/2 left-1/2 h-[80%] w-[65%] rounded-[10px] flex flex-col items-center justify-center bg-[#F0FAFF] overflow-clip"
       style={{
-        transform: "rotate(30deg)",
-        transformOrigin: "bottom left",
+        transformOrigin: "center bottom",
         willChange: "transform",
       }}
     >
@@ -254,36 +215,33 @@ line2TL
           {/* First line - "ur ideas" */}
           <span className="line1 block text-right pr-5 md:text-center md:pr-0">
             <span
-              className={`${source_code.className} uppercase text-[40px] inline-block`}
+              className={`${source_code.className} uppercase text-[30px] inline-block`}
               style={{ transform: "translate(0%, 0%)" }}
             >
               {splitTextIntoChars("ur ideas")}
             </span>
 
-            {/* pancakes sticker comes here */}
             <div
-              style={{
-                transform: "translateX(-50%) translateY(-50%)",
-              }}
-              className="absolute top-1/2 left-1/2 -translate-y-30 -translate-x-60"
+              style={{ transform: "translateX(-50%) translateY(-50%)" }}
+              className="absolute top-1/2 left-1/2 -translate-y-25 -translate-x-40"
             >
               <Image
                 src="/imgs/stickers/reveal-4/pancake.png"
-                height={81}
-                width={172}
+                height={51}
+                width={142}
                 alt="pancakes"
               />
             </div>
           </span>
 
-          {/* Second line - "need deserves" with highlight */}
+          {/* Second line - "need" → "deserve" with scribble + highlight */}
           <span
             className="line2 block relative text-center"
             style={{ transform: "translate(0%, 0%)" }}
           >
             <span className="relative inline-block" ref={needRef}>
               <span
-                className={`${magnat_text_regular.className} text-[84px] inline-block relative z-10`}
+                className={`${magnat_text_regular.className} text-[64px] inline-block relative z-10`}
               >
                 {splitTextIntoChars("need")}
               </span>
@@ -308,50 +266,48 @@ line2TL
             <span className="absolute left-1/2 top-1/2 -translate-y-1/2">
               <span
                 ref={deservesRef}
-                className={`${magnat_text_regular.className} text-[84px] inline-block relative z-10 ml-5`}
+                className={`${magnat_text_regular.className} text-[64px] inline-block relative z-10 ml-5`}
               >
                 deserve
               </span>
               <div
                 ref={highlight1Ref}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-90 h-16 bg-[#E4CEFF]"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-70 h-14 bg-[#E4CEFF]"
               />
             </span>
           </span>
 
-          {/* Third line - "Anymore" */}
+          {/* Third line - "A great execution" */}
           <span
             className="line3 block relative mt-[0.1em] text-center"
-            style={{ transform: "translate(0%, 0%)" }}
+            style={{ transform: "translate(0%, -10%)" }}
           >
             <span className="inline-block" ref={executionRef}>
               <span
-                className={`${housing.className} text-[64px] font-normal inline-block`}
+                className={`${housing.className} text-[54px] font-normal inline-block`}
               >
                 {splitTextIntoChars("A ")}
               </span>
               <span
-                className={`${didot.className} text-[64px] italic inline-block`}
+                className={`${didot.className} text-[45px] italic inline-block`}
               >
                 {splitTextIntoChars("great  ")}
               </span>
-              <span className="relative inline-block ">
+              <span className="relative inline-block">
                 <span
-                  className={`${didot.className} relative z-10 text-[64px] italic inline-block`}
+                  className={`${didot.className} relative z-10 text-[45px] italic inline-block`}
                 >
                   {splitTextIntoChars("execution")}
                 </span>
               </span>
             </span>
 
-             <div
-                style={{
-                  transform: "translateX(50%) translateY(50%)",
-                }}  
-                className="absolute bottom-0 right-0 -translate-x-40 "
-              >
-                <RickStickerPack/>
-              </div>
+            <div
+              style={{ transform: "translateX(55%) translateY(55%)" }}
+              className="absolute bottom-0 right-0 -translate-x-45"
+            >
+              <RickStickerPack />
+            </div>
           </span>
         </div>
       </div>

@@ -9,6 +9,9 @@ import {
   TabsTrigger,
 } from "../ui/tabs";
 import {
+  Button
+} from "../ui/button";
+import {
   Card,
   CardContent,
   CardDescription,
@@ -21,6 +24,7 @@ import { TextScrollMarquee } from "./text-scroll-marquee";
 import { hiveObject } from "./project-texts/hive_object";
 import { SidebarCardContent } from "./sidebat-content";
 import { ImgScroll } from "./project-img-scroll/img-scroll";
+import Link from "next/link";
 
 interface PunchPaperRedProps {
   className?: string;
@@ -140,7 +144,11 @@ export const PunchPaperRed = React.forwardRef<
                         title={project.title}
                         textColor={project.fontActiveState}
                       />
-                      <ImgScroll />
+                        <Button asChild>
+                          <Link href="/home/overview/hive">
+                              Click me!
+                          </Link>
+                        </Button>
                     </CardHeader>
                     <CardContent>
                       <div className="flex flex-col gap-8">
