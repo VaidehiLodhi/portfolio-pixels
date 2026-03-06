@@ -83,7 +83,6 @@ export default function RootLayout({
         <main>{children}</main>
         <PinWheel />
         <FooterBlock />
-        <TextMarquee outline={true} bgColor="#FAB5C5" />
         <Toaster
           position="bottom-right"
           toastOptions={{

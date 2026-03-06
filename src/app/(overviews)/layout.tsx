@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, Source_Code_Pro } from "next/font/google";
 import "../globals.css";
 import { cn } from "@/lib/utils";
 import { TextMarquee } from "@/components/text-marquee";
-import { ScrollRevealBg } from "@/components/layout/scroll-bg";
 import localFont from "next/font/local";
 import { HorizontalScrollSection } from "@/components/page-components/horizontal-scroll";
 import { FooterBlock } from "@/components/layout/footer/footer-block";

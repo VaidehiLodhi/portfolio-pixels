@@ -37,7 +37,9 @@ export const MessageMeBlock =()=> {
           <p>If you have a fun idea, I'd love to hear it</p>
         </div>
         <FormFields/>
-        <SocialBadges/>
+        <div className="w-full flex items-center justify-start pl-20">
+          <SocialBadges/>
+        </div>
       </div>
     );
 }
