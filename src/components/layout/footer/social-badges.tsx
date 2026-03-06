@@ -34,7 +34,7 @@ export const SocialBadges = () => {
   ];
 
   return (
-    <div className="flex gap-8 py-8 w-90 items-center justify-center">
+    <div className="flex gap-8 py-8">
       {socials.map((social) => (
         <Link
           key={social.name}

@@ -1,3 +1,4 @@
+import { TextMarquee } from "@/components/text-marquee"
 import { BookmarkStack } from "./bookmark-stack"
 import { GuestCheck } from "./guest-check"
 import { MessageMeBlock } from "./message-me-block"
@@ -15,6 +16,9 @@ export const FooterBlock =()=> {
             </div>
             <div className="col-start-2">
                 <MessageMeBlock/>
+            </div>
+            <div className="col-start-1 col-span-2">
+                <TextMarquee outline={true} bgColor="#FAB5C5" />
             </div>
         </div>
     )
