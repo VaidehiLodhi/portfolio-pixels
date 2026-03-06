@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils";
 import { TextMarquee } from "@/components/text-marquee";
 import { ScrollBg } from "@/components/layout/scroll-bg";
 import localFont from "next/font/local";
-import { HorizontalScrollSection } from "@/components/page-components/horizontal-scroll";
 import { FooterBlock } from "@/components/layout/footer/footer-block";
 import { PinWheel } from "@/components/page-components/pinwheel";
-import { url } from "inspector";
-import { CharPerChar } from "@/components/char-per-char";
+import {Toaster} from "sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import Preloader from "@/components/preloader/preloader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,6 +58,13 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <link rel="preload" as="image" href="/preloader/blue_doodle.png" />
+        <link rel="preload" as="image" href="/preloader/green_doodle.png" />
+        <link rel="preload" as="image" href="/preloader/orange_doodle.png" />
+        <link rel="preload" as="image" href="/preloader/pink_doodle.png" />
+        <link rel="preload" as="image" href="/preloader/vaibee_loader.png" />
+      </head>
       <body
         className={cn(
           `  ${geistSans.variable}
@@ -69,12 +76,26 @@ export default function RootLayout({
           "bg-[#DF4346] overflow-x-hidden",
         )}
       >
+        <Preloader/>
+        <TooltipProvider>
         <ScrollBg />
         <TextMarquee />
         <main>{children}</main>
         <PinWheel />
         <FooterBlock />
-        <TextMarquee outline={true} bgColor="#FAB5C5"/>
+        <TextMarquee outline={true} bgColor="#FAB5C5" />
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              fontFamily: "var(--font-departure_mono)",
+              background: "#2B0C7D",
+              color: "#FAB5C5",
+              border: "none",
+            },
+          }}
+          />
+        </TooltipProvider>
       </body>
     </html>
   );

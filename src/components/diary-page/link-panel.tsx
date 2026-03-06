@@ -102,7 +102,7 @@ export const LinkPanel = () => {
   let floatIndex = 0;
 
   return (
-    <div className="pt-30 px-15">
+    <div className="pt-6 md:pt-30 px-4 md:px-15">
       <div ref={containerRef} className="flex flex-col gap-6">
         {linkObject.map((object, index) => {
           const isFirstItem = index === 0;
@@ -112,7 +112,7 @@ export const LinkPanel = () => {
             <div key={object.id} className="flex items-center gap-10">
               {/* Icon section */}
               {isFirstItem ? (
-                <div className="relative inline-block  w-10 h-10">
+                <div className="relative inline-block  w-10 h-10 translate-x-3">
                   <Image
                     ref={mailRef}
                     src={object.imgeffectlnk}
@@ -142,8 +142,7 @@ export const LinkPanel = () => {
                     className={`flex flex-col h-full ${
                       object.mirror
                         ? "items-end justify-end"
-                        : "items-start justify-start"
-                    }`}
+                        : "items-start justify-start"}`}
                   >
                     <Image
                       src={object.imgeffectlnk}
@@ -186,7 +185,9 @@ export const LinkPanel = () => {
                 </div>
               )}
               {/* Name */}
-              <div className={`w-32 flex-none ${isFirstItem ? "pl-4" : ""}`}>
+              <div
+                className={`w-16 md:w-32 flex-none text-xs md:text-base ${isFirstItem ? "pl-3 md:pl-5" : ""}`}
+              >
                 {object.value ? (
                   <a
                     href={object.value}

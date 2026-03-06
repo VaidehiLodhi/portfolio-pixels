@@ -8,6 +8,8 @@ export const hiveObject: blockType[] = [
     title: "HIVE * KANBAN COLLABORATION * HIVE * KANBAN COLLABORATION *",
     activeState: "#F5F4C7",
     fontActiveState: "#FAC206",
+    overview: "/hive",
+    githublnk: "https://github.com/your-username/rag-chat-interface",
   },
   {
     title: "What is it?",
