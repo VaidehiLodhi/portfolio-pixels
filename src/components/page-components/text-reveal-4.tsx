@@ -8,6 +8,7 @@ import localFont from "next/font/local";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { RickStickerPack } from "./rick_sticker_pack";
+import { useIsMobile } from "../../../hooks/use-is-mobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,6 +50,7 @@ export const TextRevealComponent4 = ({
   const highlight2Ref = useRef<HTMLDivElement>(null);
   const scribbleRef = useRef<SVGPathElement>(null);
   const deservesRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   const [scribblePath, setScribblePath] = useState("");
   const [viewBox, setViewBox] = useState("0 0 200 100");
@@ -81,6 +83,7 @@ export const TextRevealComponent4 = ({
 
   useGSAP(
     () => {
+      if (isMobile) return;
       if (!containerRef.current) return;
 
       const line1Chars = containerRef.current.querySelectorAll(".line1 .char");
@@ -204,112 +207,158 @@ export const TextRevealComponent4 = ({
 
   return (
     <div
-      className="card absolute top-1/2 left-1/2 h-[80%] w-[65%] rounded-[10px] flex flex-col items-center justify-center bg-[#F0FAFF] overflow-clip"
+      className="card absolute top-1/2 left-1/2  h-[60%] md:h-[80%] w-[70%] md:w-[65%] rounded-[10px] flex flex-col items-center justify-center bg-[#F0FAFF] overflow-clip"
       style={{
         transformOrigin: "center bottom",
         willChange: "transform",
       }}
     >
       <div ref={containerRef} className="container relative w-full">
-        <div className="mb-0">
-          {/* First line - "ur ideas" */}
-          <span className="line1 block text-right pr-5 md:text-center md:pr-0">
-            <span
-              className={`${source_code.className} uppercase text-[30px] inline-block`}
-              style={{ transform: "translate(0%, 0%)" }}
-            >
-              {splitTextIntoChars("ur ideas")}
+        {isMobile ? (
+          // ── MOBILE: static ──
+          <div className="flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span className={`${source_code.className} uppercase text-[14px]`}>
+              ur ideas
             </span>
-
-            <div
-              style={{ transform: "translateX(-50%) translateY(-50%)" }}
-              className="absolute top-1/2 left-1/2 -translate-y-25 -translate-x-40"
-            >
-              <Image
-                src="/imgs/stickers/reveal-4/pancake.png"
-                height={51}
-                width={142}
-                alt="pancakes"
-              />
-            </div>
-          </span>
-
-          {/* Second line - "need" → "deserve" with scribble + highlight */}
-          <span
-            className="line2 block relative text-center"
-            style={{ transform: "translate(0%, 0%)" }}
-          >
-            <span className="relative inline-block" ref={needRef}>
+            <div className="flex items-baseline gap-2 justify-center">
               <span
-                className={`${magnat_text_regular.className} text-[64px] inline-block relative z-10`}
+                className={`${magnat_text_regular.className} text-[22px] line-through`}
               >
-                {splitTextIntoChars("need")}
-              </span>
-              {scribblePath && (
-                <svg
-                  viewBox={viewBox}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-                  style={{ width: "110%", height: "120%" }}
-                >
-                  <path
-                    ref={scribbleRef}
-                    d={scribblePath}
-                    stroke="#FF0000"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                  />
-                </svg>
-              )}
-            </span>
-            <span className="absolute left-1/2 top-1/2 -translate-y-1/2">
-              <span
-                ref={deservesRef}
-                className={`${magnat_text_regular.className} text-[64px] inline-block relative z-10 ml-5`}
-              >
-                deserve
-              </span>
-              <div
-                ref={highlight1Ref}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-70 h-14 bg-[#E4CEFF]"
-              />
-            </span>
-          </span>
-
-          {/* Third line - "A great execution" */}
-          <span
-            className="line3 block relative mt-[0.1em] text-center"
-            style={{ transform: "translate(0%, -10%)" }}
-          >
-            <span className="inline-block" ref={executionRef}>
-              <span
-                className={`${housing.className} text-[54px] font-normal inline-block`}
-              >
-                {splitTextIntoChars("A ")}
-              </span>
-              <span
-                className={`${didot.className} text-[45px] italic inline-block`}
-              >
-                {splitTextIntoChars("great  ")}
+                need
               </span>
               <span className="relative inline-block">
                 <span
-                  className={`${didot.className} relative z-10 text-[45px] italic inline-block`}
+                  className={`${magnat_text_regular.className} text-[28px] relative z-10`}
                 >
-                  {splitTextIntoChars("execution")}
+                  deserve
                 </span>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-full h-8 bg-[#E4CEFF]" />
+              </span>
+            </div>
+            <span className="flex items-baseline gap-0.5">
+              <span className={`${housing.className} text-[28px] font-normal`}>
+                A{" "}
+              </span>
+              <span className={`${didot.className} text-[26px] italic`}>
+                great{" "}
+              </span>
+              <span className={`${didot.className} text-[26px] italic`}>
+                execution
+              </span>
+            </span>
+            <div className="mt-2 scale-75 origin-center">
+              <Image
+                src="/imgs/stickers/reveal-4/pancake.png"
+                height={26}
+                width={72}
+                alt="pancakes"
+              />
+            </div>
+            <div className="scale-75 origin-center">
+              <RickStickerPack />
+            </div>
+          </div>
+        ) : (
+          <div className="mb-0">
+            {/* First line - "ur ideas" */}
+            <span className="line1 block text-right pr-5 md:text-center md:pr-0">
+              <span
+                className={`${source_code.className} uppercase text-[30px] inline-block`}
+                style={{ transform: "translate(0%, 0%)" }}
+              >
+                {splitTextIntoChars("ur ideas")}
+              </span>
+
+              <div
+                style={{ transform: "translateX(-50%) translateY(-50%)" }}
+                className="absolute top-1/2 left-1/2 -translate-y-25 -translate-x-40"
+              >
+                <Image
+                  src="/imgs/stickers/reveal-4/pancake.png"
+                  height={51}
+                  width={142}
+                  alt="pancakes"
+                />
+              </div>
+            </span>
+
+            {/* Second line - "need" → "deserve" with scribble + highlight */}
+            <span
+              className="line2 block relative text-center"
+              style={{ transform: "translate(0%, 0%)" }}
+            >
+              <span className="relative inline-block" ref={needRef}>
+                <span
+                  className={`${magnat_text_regular.className} text-[64px] inline-block relative z-10`}
+                >
+                  {splitTextIntoChars("need")}
+                </span>
+                {scribblePath && (
+                  <svg
+                    viewBox={viewBox}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                    style={{ width: "110%", height: "120%" }}
+                  >
+                    <path
+                      ref={scribbleRef}
+                      d={scribblePath}
+                      stroke="#FF0000"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      fill="none"
+                    />
+                  </svg>
+                )}
+              </span>
+              <span className="absolute left-1/2 top-1/2 -translate-y-1/2">
+                <span
+                  ref={deservesRef}
+                  className={`${magnat_text_regular.className} text-[64px] inline-block relative z-10 ml-5`}
+                >
+                  deserve
+                </span>
+                <div
+                  ref={highlight1Ref}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-70 h-14 bg-[#E4CEFF]"
+                />
               </span>
             </span>
 
-            <div
-              style={{ transform: "translateX(55%) translateY(55%)" }}
-              className="absolute bottom-0 right-0 -translate-x-45"
+            {/* Third line - "A great execution" */}
+            <span
+              className="line3 block relative mt-[0.1em] text-center"
+              style={{ transform: "translate(0%, -10%)" }}
             >
-              <RickStickerPack />
-            </div>
-          </span>
-        </div>
+              <span className="inline-block" ref={executionRef}>
+                <span
+                  className={`${housing.className} text-[54px] font-normal inline-block`}
+                >
+                  {splitTextIntoChars("A ")}
+                </span>
+                <span
+                  className={`${didot.className} text-[45px] italic inline-block`}
+                >
+                  {splitTextIntoChars("great  ")}
+                </span>
+                <span className="relative inline-block">
+                  <span
+                    className={`${didot.className} relative z-10 text-[45px] italic inline-block`}
+                  >
+                    {splitTextIntoChars("execution")}
+                  </span>
+                </span>
+              </span>
+
+              <div
+                style={{ transform: "translateX(55%) translateY(55%)" }}
+                className="absolute bottom-0 right-0 -translate-x-45"
+              >
+                <RickStickerPack />
+              </div>
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

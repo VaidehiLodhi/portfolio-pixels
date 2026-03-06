@@ -9,6 +9,7 @@ import { useRef } from "react";
 import { Highlight1 } from "./highlight1";
 import Image from "next/image";
 import StickerPeel from "../StickerPeel";
+import { useIsMobile } from "../../../hooks/use-is-mobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -47,6 +48,7 @@ export const TextRevealComponent1 = ({
   const isntfunRef = useRef<HTMLDivElement>(null);
   const anymoreRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   // split text into words and then characters
   const splitTextIntoChars = (text: string) => {
@@ -63,6 +65,7 @@ export const TextRevealComponent1 = ({
 
 useGSAP(
   () => {
+    if (isMobile) return;
     if (!containerRef.current) return;
 
     const line1Chars = containerRef.current.querySelectorAll(".line1 .char");
@@ -151,35 +154,46 @@ useGSAP(
 
   return (
     <div
-      className="card absolute top-1/2 left-1/2 h-[80%] w-[65%] rounded-[10px] flex flex-col items-center justify-center bg-[#FAB5C5] overflow-clip"
+      className="card absolute top-1/2 left-1/2  h-[60%] md:h-[80%] w-[70%] md:w-[65%] rounded-[10px] flex flex-col items-center justify-center bg-[#FAB5C5] overflow-clip"
       style={{
         transformOrigin: "center bottom",
         willChange: "transform",
       }}
     >
       <div ref={containerRef} className="container relative w-full">
-        <div className="mb-0">
-          {/* First line - "so, if normal" */}
-          <span className="line1 relative block text-right pr-5 md:text-center md:pr-0">
-            <span
-              className={`${source_code.className} uppercase text-[30px] inline-block`}
-              style={{ transform: "translate(20%, 0%)" }}
-            >
-              {splitTextIntoChars("so, if normal")}
+        {isMobile ? (
+          // ── MOBILE: static text, no char splitting ──
+          <div className="flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span className={`${source_code.className} uppercase text-[14px]`}>
+              so, if normal
             </span>
-
-            {/* catto sticker comes here */}
-            <div
-            
-              style={{
-                transform: "translateX(-50%) translateY(-50%)",
-              }}
-              className="absolute top-1/2 left-1/2 -translate-y-5 -translate-x-50 z-10"
-            >
+            <div className="relative inline-block">
+              <span
+                className={`${magnat_text_regular.className} text-[32px] lowercase relative z-10`}
+              >
+                isn't fun
+              </span>
+              <div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-full h-10 opacity-60"
+                style={{ clipPath: "inset(0% 0% 0% 0%)" }}
+              >
+                <Highlight1 />
+              </div>
+            </div>
+            <span className="flex items-baseline gap-0.5">
+              <span className={`${housing.className} text-[28px] font-normal`}>
+                A
+              </span>
+              <span className={`${didot.className} text-[26px] italic`}>
+                nymore
+              </span>
+            </span>
+            {/* stickers — smaller on mobile */}
+            <div className="flex gap-4 mt-2 justify-center">
               <StickerPeel
                 imageSrc="/imgs/stickers/reveal-1/kato_pixel_boi.png"
-                width={74}
-                height={156}
+                width={40}
+                height={84}
                 alt="kato_sticker"
                 rotate={-10}
                 peelBackHoverPct={20}
@@ -187,66 +201,10 @@ useGSAP(
                 shadowIntensity={0}
                 peelDirection={15}
               />
-            </div>
-          </span>
-
-          {/* Second line - "isn't fun" with highlight */}
-          <span
-            className="line2 block relative text-center"
-            style={{ transform: "translate(0%, 0%)" }}
-          >
-            <span className="relative inline-block" ref={isntfunRef}>
-              <span
-                className={`${magnat_text_regular.className} text-[64px] lowercase inline-block relative z-10`}
-              >
-                {splitTextIntoChars("isn't fun")}
-              </span>
-              <div
-                ref={highlightRef}
-                style={{
-                  // inline takes precedence over className
-                  width: "700px",
-                  height: "200px",
-                  // positions left edge at parents's horizontal center
-                  // positions top edge at parent's vertical center
-                  transform: "translateX(-50%)", // due to left and transform x, perfectly centered
-                }}
-                className="absolute flex items-center justify-center left-1/2 top-1/2 -translate-y-1/2 translate-x-20"
-              >
-                <Highlight1 />
-              </div>
-            </span>
-          </span>
-
-          {/* Third line - "Anymore" */}
-          <span
-            className="line3 block relative mt-[0.1em] text-center"
-            style={{ transform: "translate(-10%, 0%)" }}
-          >
-            <span className="flex justify-center items-baseline" ref={anymoreRef}>
-              <span
-                className={`${housing.className} text-[54px] font-normal inline-block`}
-              >
-                {splitTextIntoChars("A")}
-              </span>
-              <span
-                className={`${didot.className} text-[48px] italic inline-block`}
-              >
-                {splitTextIntoChars("nymore")}
-              </span>
-            </span>
-
-            {/* jax sticker comes here */}
-            <div
-              style={{
-                transform: "translateX(100%) translateY(-60%)",
-              }}
-              className="absolute top-1/2 left-1/2 -translate-x-50"
-            >
               <StickerPeel
                 imageSrc="/imgs/stickers/reveal-1/jax_rabbit.png"
-                width={110.15}
-                height={131.6}
+                width={55}
+                height={66}
                 rotate={0}
                 peelBackHoverPct={20}
                 peelBackActivePct={40}
@@ -255,8 +213,110 @@ useGSAP(
                 alt="jax_sticker"
               />
             </div>
-          </span>
-        </div>
+          </div>
+        ) : (
+          <div className="mb-0">
+            {/* First line - "so, if normal" */}
+            <span className="line1 relative block text-right pr-5 md:text-center md:pr-0">
+              <span
+                className={`${source_code.className} uppercase text-[30px] inline-block`}
+                style={{ transform: "translate(20%, 0%)" }}
+              >
+                {splitTextIntoChars("so, if normal")}
+              </span>
+
+              {/* catto sticker comes here */}
+              <div
+                style={{
+                  transform: "translateX(-50%) translateY(-50%)",
+                }}
+                className="absolute top-1/2 left-1/2 -translate-y-5 -translate-x-50 z-10"
+              >
+                <StickerPeel
+                  imageSrc="/imgs/stickers/reveal-1/kato_pixel_boi.png"
+                  width={74}
+                  height={156}
+                  alt="kato_sticker"
+                  rotate={-10}
+                  peelBackHoverPct={20}
+                  peelBackActivePct={40}
+                  shadowIntensity={0}
+                  peelDirection={15}
+                />
+              </div>
+            </span>
+
+            {/* Second line - "isn't fun" with highlight */}
+            <span
+              className="line2 block relative text-center"
+              style={{ transform: "translate(0%, 0%)" }}
+            >
+              <span className="relative inline-block" ref={isntfunRef}>
+                <span
+                  className={`${magnat_text_regular.className} text-[64px] lowercase inline-block relative z-10`}
+                >
+                  {splitTextIntoChars("isn't fun")}
+                </span>
+                <div
+                  ref={highlightRef}
+                  style={{
+                    // inline takes precedence over className
+                    width: "700px",
+                    height: "200px",
+                    // positions left edge at parents's horizontal center
+                    // positions top edge at parent's vertical center
+                    transform: "translateX(-50%)", // due to left and transform x, perfectly centered
+                  }}
+                  className="absolute flex items-center justify-center left-1/2 top-1/2 -translate-y-1/2 translate-x-20"
+                >
+                  <Highlight1 />
+                </div>
+              </span>
+            </span>
+
+            {/* Third line - "Anymore" */}
+            <span
+              className="line3 block relative mt-[0.1em] text-center"
+              style={{ transform: "translate(-10%, 0%)" }}
+            >
+              <span
+                className="flex justify-center items-baseline"
+                ref={anymoreRef}
+              >
+                <span
+                  className={`${housing.className} text-[54px] font-normal inline-block`}
+                >
+                  {splitTextIntoChars("A")}
+                </span>
+                <span
+                  className={`${didot.className} text-[48px] italic inline-block`}
+                >
+                  {splitTextIntoChars("nymore")}
+                </span>
+              </span>
+
+              {/* jax sticker comes here */}
+              <div
+                style={{
+                  transform: "translateX(100%) translateY(-60%)",
+                }}
+                className="absolute top-1/2 left-1/2 -translate-x-50"
+              >
+                <StickerPeel
+                  imageSrc="/imgs/stickers/reveal-1/jax_rabbit.png"
+                  width={110.15}
+                  height={131.6}
+                  rotate={0}
+                  peelBackHoverPct={20}
+                  peelBackActivePct={40}
+                  shadowIntensity={0.2}
+                  peelDirection={90}
+                  alt="jax_sticker"
+                />
+              </div>
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

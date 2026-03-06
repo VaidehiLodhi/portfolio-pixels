@@ -8,6 +8,7 @@ import localFont from "next/font/local";
 import { useRef } from "react";
 import { PlantinoStickerPack } from "./tanjiro_sticker_pack";
 import { PeaShooterStickerPack } from "./pvz_sticker_pack";
+import { useIsMobile } from "../../../hooks/use-is-mobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,7 +49,7 @@ export const TextRevealComponent2 = ({
   const anymoreRef = useRef<HTMLDivElement>(null);
   const highlight1Ref = useRef<HTMLDivElement>(null);
   const highlight2Ref = useRef<HTMLDivElement>(null);
-
+  const isMobile = useIsMobile();
   // split text into words and then characters
   const splitTextIntoChars = (text: string) => {
     return text.split("").map((char, index) => (
@@ -64,6 +65,7 @@ export const TextRevealComponent2 = ({
 
 useGSAP(
   () => {
+    if (isMobile) return;
     if (!containerRef.current) return;
 
     const line1Chars = containerRef.current.querySelectorAll(".line1 .char");
@@ -124,84 +126,134 @@ useGSAP(
 
   return (
     <div
-      className="card absolute top-1/2 left-1/2 h-[80%] w-[65%] rounded-[10px] flex flex-col items-center justify-center bg-[#F5F4C7] overflow-clip"
+      className="card absolute top-1/2 left-1/2  h-[60%] md:h-[80%] w-[70%] md:w-[65%] rounded-[10px] flex flex-col items-center justify-center bg-[#F5F4C7] overflow-clip"
       style={{
         transformOrigin: "center bottom",
         willChange: "transform",
       }}
     >
       <div ref={containerRef} className="container relative w-full">
-        <div className="mb-0">
-          {/* First line - "fresh thinking and creative projects" */}
-          <div className="line1 block text-center px-5 md:text-center md:px-0">
-            <div className="flex items-baseline justify-center gap-x-4">
-              <span className="relative inline-block" ref={freshthinkingRef}>
+        {isMobile ? (
+          // ── MOBILE: static ──
+          <div className="flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <div className="flex flex-wrap items-baseline justify-center gap-x-2">
+              <span className="relative inline-block">
                 <span
-                  className={`${magnat_text_regular.className} text-[36px] inline-block relative z-10`}
+                  className={`${magnat_text_regular.className} text-[22px] relative z-10`}
                 >
-                  {splitTextIntoChars("Fresh Thinking")}
+                  Fresh Thinking
                 </span>
                 <div
                   ref={highlight1Ref}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-62 h-12 bg-[#E4CEFF]"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-full h-7 bg-[#E4CEFF]"
                 />
-                <div
-                  style={{
-                    transform: "translateX(-50%) translateY(-50%)",
-                  }}
-                  className="absolute top-0 left-0 translate-x-50 -translate-y-20"
-                >
-                  <PlantinoStickerPack />
-                </div>
               </span>
-
               <span
-                className={`${source_code.className} uppercase text-[32px] inline-block`}
+                className={`${source_code.className} uppercase text-[16px]`}
               >
-                {splitTextIntoChars("AND")}
+                AND
               </span>
-
-              <span className="relative inline-block" ref={creativeprojectsRef}>
+              <span className="relative inline-block">
                 <span
-                  className={`${magnat_text_regular.className} text-[36px] inline-block relative z-10`}
+                  className={`${magnat_text_regular.className} text-[22px] relative z-10`}
                 >
-                  {splitTextIntoChars("Creative Projects")}
+                  Creative Projects
                 </span>
                 <div
                   ref={highlight2Ref}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-74 h-12 bg-[#CEDFFF]"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-full h-7 bg-[#CEDFFF]"
                 />
               </span>
             </div>
-          </div>
-
-          {/* Second line - "Are what you seek" */}
-          <span
-            className="line2 block relative mt-[0.1em] text-center"
-            style={{ transform: "translate(2%, 0%)" }}
-          >
-            <span className="inline-block" ref={anymoreRef}>
-              <span
-                className={`${housing.className} text-[54px] font-normal inline-block`}
-              >
-                {splitTextIntoChars("A")}
+            <span className="flex items-baseline gap-0.5">
+              <span className={`${housing.className} text-[28px] font-normal`}>
+                A
               </span>
-              <span
-                className={`${didot.className} text-[48px] italic inline-block`}
-              >
-                {splitTextIntoChars("re what you seek")}
+              <span className={`${didot.className} text-[26px] italic`}>
+                re what you seek
               </span>
             </span>
-            <div
-              style={{
-                transform: "translateX(50%) translateY(50%)",
-              }}
-              className="absolute bottom-0 right-0 -translate-x-50 translate-y-10"
-            >
+            <div className="flex gap-4 mt-2 justify-center scale-75 origin-center">
+              <PlantinoStickerPack />
               <PeaShooterStickerPack />
             </div>
-          </span>
-        </div>
+          </div>
+        ) : (
+          <div className="mb-0">
+            {/* First line - "fresh thinking and creative projects" */}
+            <div className="line1 block text-center px-5 md:text-center md:px-0">
+              <div className="flex items-baseline justify-center gap-x-4">
+                <span className="relative inline-block" ref={freshthinkingRef}>
+                  <span
+                    className={`${magnat_text_regular.className} text-[36px] inline-block relative z-10`}
+                  >
+                    {splitTextIntoChars("Fresh Thinking")}
+                  </span>
+                  <div
+                    ref={highlight1Ref}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-62 h-12 bg-[#E4CEFF]"
+                  />
+                  <div
+                    style={{
+                      transform: "translateX(-50%) translateY(-50%)",
+                    }}
+                    className="absolute top-0 left-0 translate-x-50 -translate-y-20"
+                  >
+                    <PlantinoStickerPack />
+                  </div>
+                </span>
+
+                <span
+                  className={`${source_code.className} uppercase text-[32px] inline-block`}
+                >
+                  {splitTextIntoChars("AND")}
+                </span>
+
+                <span
+                  className="relative inline-block"
+                  ref={creativeprojectsRef}
+                >
+                  <span
+                    className={`${magnat_text_regular.className} text-[36px] inline-block relative z-10`}
+                  >
+                    {splitTextIntoChars("Creative Projects")}
+                  </span>
+                  <div
+                    ref={highlight2Ref}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-74 h-12 bg-[#CEDFFF]"
+                  />
+                </span>
+              </div>
+            </div>
+
+            {/* Second line - "Are what you seek" */}
+            <span
+              className="line2 block relative mt-[0.1em] text-center"
+              style={{ transform: "translate(2%, 0%)" }}
+            >
+              <span className="inline-block" ref={anymoreRef}>
+                <span
+                  className={`${housing.className} text-[54px] font-normal inline-block`}
+                >
+                  {splitTextIntoChars("A")}
+                </span>
+                <span
+                  className={`${didot.className} text-[48px] italic inline-block`}
+                >
+                  {splitTextIntoChars("re what you seek")}
+                </span>
+              </span>
+              <div
+                style={{
+                  transform: "translateX(50%) translateY(50%)",
+                }}
+                className="absolute bottom-0 right-0 -translate-x-50 translate-y-10"
+              >
+                <PeaShooterStickerPack />
+              </div>
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

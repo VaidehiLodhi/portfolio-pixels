@@ -53,22 +53,28 @@ function TabsTrigger({
 
 function SidebarTabsTrigger({
   className,
+  variant = "sidebar",
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
+}: React.ComponentProps<typeof TabsPrimitive.Trigger> & { variant?: "sidebar" | "mobile" }) {
   return (
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
         // Copy the base styles you want to keep from original TabsTrigger
         `${magnat_test_light.className}`,
-          "data-[state=active]:bg-(--active-bg)",
-         "focus-visible:ring-ring/50 focus-visible:outline-none", 
-         "text-black",  
-         "border border-l-0 border-r-0 border-t-0 border-black", 
-         "py-2 pl-6 m-0 text-xl font-extralight transition-[color,box-shadow]", 
-         "focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        // Your custom sidebar styles (no flex-1, no centering)
-        "flex h-auto flex-none items-start justify-start rounded-none w-full",
+        "data-[state=active]:bg-(--active-bg)",
+        "focus-visible:ring-ring/50 focus-visible:outline-none",
+        "text-black border border-l-0 border-r-0 border-t-0 border-black",
+      "transition-[color,box-shadow]",
+
+        // sidebar (desktop) styles
+        variant === "sidebar" &&
+          "py-2 pl-6 text-xl font-extralight flex h-auto flex-none items-start justify-start rounded-none w-full",
+
+        // mobile styles
+        variant === "mobile" &&
+          "flex-1 w-auto text-xs py-1.5 px-2 justify-center",
+
         className,
       )}
       {...props}

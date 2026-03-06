@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import { BmoStickerPack } from "./bmo_sticker_pack";
 import StickerPeel from "../StickerPeel";
+import { useIsMobile } from "../../../hooks/use-is-mobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,6 +49,7 @@ export const TextRevealComponent3 = ({
   const anymoreRef = useRef<HTMLDivElement>(null);
   const highlight1Ref = useRef<HTMLDivElement>(null);
   const highlight2Ref = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   // split text into words and then characters
   const splitTextIntoChars = (text: string) => {
@@ -64,6 +66,7 @@ export const TextRevealComponent3 = ({
 
 useGSAP(
   () => {
+    if (isMobile) return;
     if (!containerRef.current) return;
 
     const line1Chars = containerRef.current.querySelectorAll(".line1 .char");
@@ -162,54 +165,48 @@ useGSAP(
 
   return (
     <div
-      className="card absolute top-1/2 left-1/2 h-[80%] w-[65%] rounded-[10px] flex flex-col items-center justify-center bg-[#D0F5C7] overflow-clip"
+      className="card absolute top-1/2 left-1/2  h-[60%] md:h-[80%] w-[70%] md:w-[65%] rounded-[10px] flex flex-col items-center justify-center bg-[#D0F5C7] overflow-clip"
       style={{
         transformOrigin: "center bottom",
         willChange: "transform",
       }}
     >
       <div ref={containerRef} className="container relative w-full">
-        <div className="mb-0">
-          {/* First line - "so, if normal" */}
-          <span className="line1 block text-right pr-5 md:text-center md:pr-0">
-            <span
-              className={`${source_code.className} uppercase text-[30px] inline-block`}
-              style={{ transform: "translate(20%, 0%)" }}
-            >
-              {splitTextIntoChars("then i'll bring")}
+        {isMobile ? (
+          // ── MOBILE: static ──
+          <div className="flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span className={`${source_code.className} uppercase text-[14px]`}>
+              then i'll bring
             </span>
-          </span>
-
-          {/* Second line - "isn't fun" with highlight */}
-          <span
-            className="line2 block relative text-center"
-            style={{ transform: "translate(0%, 0%)" }}
-          >
-            <span className="relative inline-block" ref={isntfunRef}>
+            <span className="relative inline-block">
               <span
-                className={`${magnat_text_regular.className} text-[64px] inline-block relative z-10`}
+                className={`${magnat_text_regular.className} text-[32px] relative z-10`}
               >
-                {splitTextIntoChars("The skills")}
+                The skills
               </span>
-              <div
-                ref={highlight1Ref}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-75 h-14 bg-[#76FF02]"
-              />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-full h-9 bg-[#76FF02]" />
             </span>
-
-            {/* radish sticker comes here */}
-            <div
-              style={{
-                transform: "translateX(10%) translateY(55%)",
-              }}
-              className="absolute right-1/2 bottom-0 translate-x-55 -translate-y-15"
-              // right-0 aligns the right edge of the absolute element with the right edge of the parent
-              // bottom-0 aligns the bottom edge of the absolute element with the bottom edge of the parent
-            >
+            <span className="flex items-baseline gap-0.5">
+              <span className={`${housing.className} text-[28px] font-normal`}>
+                T
+              </span>
+              <span className={`${didot.className} text-[26px] italic`}>
+                o capture{" "}
+              </span>
+              <span className="relative inline-block">
+                <span
+                  className={`${didot.className} text-[26px] italic relative z-10`}
+                >
+                  meaning
+                </span>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-full h-8 bg-[#E4CEFF]" />
+              </span>
+            </span>
+            <div className="flex gap-3 mt-2 justify-center scale-75 origin-center">
               <StickerPeel
                 imageSrc="/imgs/stickers/reveal-3/radish.png"
-                height={135.78}
-                width={81.92}
+                height={70}
+                width={42}
                 alt="radish_sticker"
                 rotate={-8}
                 peelBackHoverPct={20}
@@ -217,44 +214,98 @@ useGSAP(
                 shadowIntensity={0.2}
                 peelDirection={0}
               />
+              <BmoStickerPack />
             </div>
-          </span>
-
-          {/* Third line - "Anymore" */}
-          <span
-            className="line3 block relative mt-[0.1em] text-center"
-            style={{ transform: "translate(10%, 0%)" }}
-          >
-            <span className="inline-block" ref={anymoreRef}>
+          </div>
+        ) : (
+          <div className="mb-0">
+            {/* First line - "so, if normal" */}
+            <span className="line1 block text-right pr-5 md:text-center md:pr-0">
               <span
-                className={`${housing.className} text-[54px] font-normal inline-block`}
+                className={`${source_code.className} uppercase text-[30px] inline-block`}
+                style={{ transform: "translate(20%, 0%)" }}
               >
-                {splitTextIntoChars("T")}
-              </span>
-              <span
-                className={`${didot.className} text-[45px] italic inline-block`}
-              >
-                {splitTextIntoChars("o capture ")}
-              </span>
-              <span className="relative inline-block">
-                <span
-                  className={`${didot.className} relative z-10 text-[45px] italic inline-block`}
-                >
-                  {splitTextIntoChars("meaning")}
-                </span>
-                <div
-                  ref={highlight2Ref}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-40 h-14 bg-[#E4CEFF]"
-                />
+                {splitTextIntoChars("then i'll bring")}
               </span>
             </span>
 
-            {/* bmo sticker pack here */}
-            <div className="absolute left-0 top-0 -translate-x-12 -translate-y-10">
-              <BmoStickerPack />
-            </div>
-          </span>
-        </div>
+            {/* Second line - "isn't fun" with highlight */}
+            <span
+              className="line2 block relative text-center"
+              style={{ transform: "translate(0%, 0%)" }}
+            >
+              <span className="relative inline-block" ref={isntfunRef}>
+                <span
+                  className={`${magnat_text_regular.className} text-[64px] inline-block relative z-10`}
+                >
+                  {splitTextIntoChars("The skills")}
+                </span>
+                <div
+                  ref={highlight1Ref}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-75 h-14 bg-[#76FF02]"
+                />
+              </span>
+
+              {/* radish sticker comes here */}
+              <div
+                style={{
+                  transform: "translateX(10%) translateY(55%)",
+                }}
+                className="absolute right-1/2 bottom-0 translate-x-55 -translate-y-15"
+                // right-0 aligns the right edge of the absolute element with the right edge of the parent
+                // bottom-0 aligns the bottom edge of the absolute element with the bottom edge of the parent
+              >
+                <StickerPeel
+                  imageSrc="/imgs/stickers/reveal-3/radish.png"
+                  height={135.78}
+                  width={81.92}
+                  alt="radish_sticker"
+                  rotate={-8}
+                  peelBackHoverPct={20}
+                  peelBackActivePct={30}
+                  shadowIntensity={0.2}
+                  peelDirection={0}
+                />
+              </div>
+            </span>
+
+            {/* Third line - "Anymore" */}
+            <span
+              className="line3 block relative mt-[0.1em] text-center"
+              style={{ transform: "translate(10%, 0%)" }}
+            >
+              <span className="inline-block" ref={anymoreRef}>
+                <span
+                  className={`${housing.className} text-[54px] font-normal inline-block`}
+                >
+                  {splitTextIntoChars("T")}
+                </span>
+                <span
+                  className={`${didot.className} text-[45px] italic inline-block`}
+                >
+                  {splitTextIntoChars("o capture ")}
+                </span>
+                <span className="relative inline-block">
+                  <span
+                    className={`${didot.className} relative z-10 text-[45px] italic inline-block`}
+                  >
+                    {splitTextIntoChars("meaning")}
+                  </span>
+                  <div
+                    ref={highlight2Ref}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-40 h-14 bg-[#E4CEFF]"
+                  />
+                </span>
+              </span>
+
+              {/* bmo sticker pack here */}
+              <div className="absolute left-0 top-0 -translate-x-12 -translate-y-10">
+                <BmoStickerPack />
+              </div>
+            </span>
+          </div>
+        )}
+        ;
       </div>
     </div>
   );

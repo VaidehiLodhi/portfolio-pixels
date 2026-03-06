@@ -175,12 +175,14 @@ export const SkillsetButton = ({
       className="rounded-sm border-dashed border border-black cursor-pointer relative overflow-hidden"
       style={{ backgroundColor: bgColor }}
     >
-      <div className="flex items-baseline gap-7 px-3 py-3">
-        <span className={`${belmonte.className} text-4xl leading-none`}>
+      <div className="flex items-baseline gap-3 md:gap-7 px-3 py-2 md:py-3">
+        <span
+          className={`${belmonte.className}  text-xl md:text-4xl leading-none`}
+        >
           {index}
         </span>
         <span
-          className={`${magnat_test_light.className} text-2xl leading-none`}
+          className={`${magnat_test_light.className}  text-sm md:text-2xl leading-none`}
         >
           {label}
         </span>
@@ -189,7 +191,7 @@ export const SkillsetButton = ({
       {/* Hover text that appears */}
       <div
         ref={hoverTextContainerRef}
-        className={`${belmonte.className} absolute text-lg font-extralight text-black`}
+        className={`${belmonte.className} absolute text-lg font-extralight text-black hidden md:block`}
         style={{
           bottom: hoverTextPosition.bottom,
           right: hoverTextPosition.right,
