@@ -69,7 +69,7 @@ export default function RootLayout({
               ${didot.variable}
               ${housing.variable}
               ${magnat_text_regular.variable} antialiased`,
-          "bg-[#ffffff] overflow-x-hidden",
+          "bg-[#DF4346] overflow-x-hidden",
         )}
       >
         <main>{children}</main>
