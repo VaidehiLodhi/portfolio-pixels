@@ -61,7 +61,7 @@ export default function Preloader(): JSX.Element | null {
 
     return (
         <div
-            className={`fixed inset-0 w-screen h-screen z-100 flex items-center justify-center bg-[#F5E1CD] transition-all duration-700 ease-in-out
+            className={`fixed inset-0 w-screen h-screen z-300 flex items-center justify-center bg-[#F5E1CD] transition-all duration-700 ease-in-out
                 ${isLeaving ? "translate-y-full" : "translate-y-0"}
             `}
         >

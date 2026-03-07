@@ -14,7 +14,7 @@ export const MobileWarner =()=> {
     if(!isMobile || isVisible) return null;
 
     return (
-        <div className="relative mt-10 mx-10 mb-20 inset-0 z-[200] flex items-center justify-center"> 
+        <div className="relative mt-10 mx-10 mb-20 inset-0 z-200 flex items-center justify-center"> 
             <div className={`${departure_mono.className} relative w-100 rounded-[10px] min-h-95 text-sm text-[#3B2313] flex flex-col bg-[#F5E1CD] overflow-hidden`}>
                 <div className="absolute top-0 left-0 w-full flex justify-center pointer-events-none select-none">
                     <Image
