@@ -4,7 +4,6 @@ import "../globals.css";
 import { cn } from "@/lib/utils";
 import { TextMarquee } from "@/components/text-marquee";
 import localFont from "next/font/local";
-import { HorizontalScrollSection } from "@/components/page-components/horizontal-scroll";
 import { FooterBlock } from "@/components/layout/footer/footer-block";
 import Preloader from "@/components/preloader/preloader";
 
