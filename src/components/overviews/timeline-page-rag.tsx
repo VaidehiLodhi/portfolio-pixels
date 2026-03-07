@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import localFont from "next/font/local";
+import { useRouter } from "next/navigation";
 
 export const departure_mono = localFont({
   src: "../../../public/fonts/departure-mono.woff2",
@@ -24,6 +25,8 @@ export default function TimelinePageRagChat() {
   const currentScrollRef = useRef(0);
   const targetScrollRef = useRef(0);
   const rafRef = useRef<number | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -219,6 +222,7 @@ export default function TimelinePageRagChat() {
               alt="inngest perspective mockup"
               height={509}
               width={764}
+              priority
               className="w-150 h-auto z-0 relative"
             />
             <Image
@@ -226,6 +230,7 @@ export default function TimelinePageRagChat() {
               alt="chat perspective mockup"
               height={509}
               width={764}
+              priority
               className="w-150 h-auto z-10 absolute top-1/2 left-1/2 -translate-x-90 -translate-y-30"
             />
           </div>
@@ -238,6 +243,7 @@ export default function TimelinePageRagChat() {
               <Image
                 src="/imgs/mockups/rag_chat_mockups/lin_mei_unsplash.jpg"
                 alt="lin_mei_japan"
+                priority
                 fill
                 className="object-cover parallax-img will-change-transform scale-120 parallax-display"
               />
@@ -316,6 +322,7 @@ export default function TimelinePageRagChat() {
               <Image
                 src="/imgs/mockups/rag_chat_mockups/soliman_cifuentes_tree.jpg"
                 alt="soliman_tree"
+                priority
                 fill
                 className="object-cover parallax-img will-change-transform scale-120 parallax-display"
               />
@@ -370,6 +377,7 @@ export default function TimelinePageRagChat() {
               <Image
                 src="/imgs/mockups/rag_chat_mockups/rag_mockup_screen.png"
                 alt="rag mockup"
+                priority
                 width={1035}
                 height={540}
                 className="relative h-full z-10"
@@ -377,6 +385,15 @@ export default function TimelinePageRagChat() {
           </div>
         </div>
       </div>
+
+       {/* Back button - fixed to right edge */}
+          <button
+            onClick={() => router.push("/")}
+            className={`${bringbold.className} fixed top-0 right-0 z-[300] h-screen w-5 p-2 bg-[#DF4346] text-[#FFFFFF] text-[20px] tracking-widest opacity-20 hover:opacity-100 transition-opacity duration-200 cursor-pointer flex items-center justify-center`}
+            style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
+          >
+            [BACK]
+          </button>
 
       {/* Grain overlay */}
       <div

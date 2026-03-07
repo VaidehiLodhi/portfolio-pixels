@@ -6,10 +6,10 @@ export const vaibeeIncObject: blockType[] = [
     id: "vaibee_inc",
     name: "Vaibee.inc",
     title: "VAIBEE.INC * A LABOUR OF LOVE * VAIBEE.INC * A LABOUR OF LOVE *",
-    activeState: "#F8EAFF",
-    fontActiveState: "#2B0C7D",
+    activeState: "#FFF1F1",
+    fontActiveState: "#FF6464",
     overview: "/vaibee.inc",
-    githublnk: "https://github.com/your-username/rag-chat-interface",
+    githublnk: "https://github.com/VaidehiLodhi/Vaibee.inc",
   },
   {
     title: "What is it?",
@@ -85,9 +85,18 @@ export const vaibeeIncObject: blockType[] = [
     title: "GitHub",
     content: [
       {
-        type: "paragraph",
-        text: "https://github.com/your-username/vaibee-inc",
+        type: "link",
+        text: "https://github.com/VaidehiLodhi/Vaibee.inc",
       },
     ],
   },
+  {
+      title: "Deployed",
+      content: [
+        {
+          type: "paragraph",
+          text: "Well :) u r right on it hehe.",
+        },
+      ],
+    },
 ];

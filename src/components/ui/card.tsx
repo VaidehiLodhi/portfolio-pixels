@@ -33,7 +33,7 @@ function SidebarCard({
       data-slot="card"
       className={cn(
         `${magnat_text_regular.className}`,
-        "rounded-none flex flex-col border-0",
+        "rounded-none flex flex-col border-0 cursor-default",
         className
       )}
       style={style}

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Source_Code_Pro } from "next/font/google";
-import "../globals.css";
+import "./globals.css";
 import { cn } from "@/lib/utils";
 import { TextMarquee } from "@/components/text-marquee";
 import localFont from "next/font/local";
@@ -30,19 +30,19 @@ export const source_code = Source_Code_Pro({
 })
 
 export const didot = localFont({
-  src: "../../../public/fonts/didot_italic.otf",
+  src: "../../public/fonts/didot_italic.otf",
   variable: "--font-didot-italic",
   display: "swap",
 });
 
 export const housing = localFont({
-  src: "../../../public/fonts/housing.ttf",
+  src: "../../public/fonts/housing.ttf",
   variable: "--font-housing",
   display: "swap",
 });
 
 export const magnat_text_regular = localFont({
-  src: "../../../public/fonts/magnat_family/text_test/magnat_text_test_regular.woff",
+  src: "../../public/fonts/magnat_family/text_test/magnat_text_test_regular.woff",
   variable: "--font-magnat_text_regular",
   display: "swap",
 });
@@ -73,7 +73,6 @@ export default function RootLayout({
           "bg-[#ffffff] overflow-x-hidden",
         )}
       >
-        <Preloader/>
         <main>{children}</main>
       </body>
     </html>

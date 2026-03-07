@@ -1,15 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { Check, Copy } from "lucide-react";
 
 export const LinkPanel = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mailRef = useRef<HTMLImageElement>(null);
   const scaleDecorationsRef = useRef<(HTMLDivElement | null)[]>([]);
   const floatDecorationsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = (text: string) => {
+  navigator.clipboard.writeText(text);
+  setCopied(true);
+  setTimeout(() => setCopied(false), 2000);
+  };
 
   useGSAP(
     () => {
@@ -60,7 +69,7 @@ export const LinkPanel = () => {
     {
       id: "mail",
       name: "Email",
-      value: "mailto:vaidehixoxo@gmail.com",
+      value: "vaidehixoxo@gmail.com",
       imglnk: "/imgs/logos/mail/mail-logo.svg",
       imgeffectlnk: "/imgs/logos/mail/stamp-borders.svg",
     },
@@ -83,6 +92,7 @@ export const LinkPanel = () => {
     {
       id: "spotify",
       name: "Spotify",
+      value: "https://open.spotify.com/user/31son3ysnl6kjzjljt5bg4g2ttr4?si=ef0f72a4d9cf4392",
       imglnk: "/imgs/logos/spotify/spotify-solo.svg",
       imgeffectlnk: "/imgs/logos/spotify/music-note.svg",
       effect: "float",
@@ -188,7 +198,18 @@ export const LinkPanel = () => {
               <div
                 className={`w-16 md:w-32 flex-none text-xs md:text-base ${isFirstItem ? "pl-3 md:pl-5" : ""}`}
               >
-                {object.value ? (
+                {isFirstItem && (
+                  <div className="flex items-center justify-center gap-x-1">
+                    {object.value}
+                    <button
+                      onClick={() => handleCopy("vaidehixoxo@gmail.com")}
+                      className="text-[#332525]/60 hover:text-[#332525] transition-colors duration-200 cursor-pointer"
+                    >
+                      {copied ? <Check color="#332525" size={14} /> : <Copy color="#332525" size={14} />}
+                    </button>
+                  </div>
+                )}
+                {!isFirstItem && object.value && (
                   <a
                     href={object.value}
                     target="_blank"
@@ -197,7 +218,9 @@ export const LinkPanel = () => {
                   >
                     {object.name}
                   </a>
-                ) : (
+                )} 
+                
+                {!isFirstItem && !object.value && (
                   <span>{object.name}</span>
                 )}
               </div>

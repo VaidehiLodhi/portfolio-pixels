@@ -1,5 +1,5 @@
 "use client";
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useState, FormEvent, ChangeEvent, useRef, KeyboardEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { InputFooter } from "@/components/ui/input";
@@ -39,6 +39,17 @@ export const FormFields = () => {
   const [errors, setErrors] = useState<FormErrors>({});
 
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
+
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
+    const handleKeyDown = (e: KeyboardEvent, nextRef: React.RefObject<HTMLInputElement | HTMLTextAreaElement | null>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      nextRef.current?.focus();
+    }
+  };
 
   const handleBlur =(field: keyof FormErrors): void => {
     // validate just that one field on blur
@@ -99,6 +110,8 @@ export const FormFields = () => {
       <FieldGroup className="gap-0">
         <Field className="gap-0 w-90">
           <InputFooter
+            ref={nameRef}
+            onKeyDown={(e) => handleKeyDown(e, emailRef)}
             id="fieldgroup-name"
             placeholder="Name"
             value={formData.name}
@@ -117,6 +130,8 @@ export const FormFields = () => {
         </Field>
         <Field className="gap-0 w-90">
           <InputFooter
+            ref={emailRef}
+            onKeyDown={(e) => handleKeyDown(e, messageRef)}
             id="fieldgroup-email"
             type="email"
             placeholder="Email"
@@ -136,6 +151,7 @@ export const FormFields = () => {
         </Field>
         <Field className="gap-0 w-90">
           <TextareaFooter
+            ref={messageRef}
             id="fieldgroup-message"
             placeholder="anything u wanna say!"
             rows={4}

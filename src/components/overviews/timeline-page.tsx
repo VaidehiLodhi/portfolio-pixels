@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import localFont from "next/font/local";
+import { useRouter } from "next/navigation";
 
 export const departure_mono = localFont({
   src: "../../../public/fonts/departure-mono.woff2",
@@ -24,6 +25,8 @@ export default function TimelinePage() {
   const currentScrollRef = useRef(0);
   const targetScrollRef = useRef(0);
   const rafRef = useRef<number | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -208,6 +211,7 @@ export default function TimelinePage() {
           <Image
             src="/imgs/mockups/hive_mockups/hive_mock_1.svg"
             alt="hive mockup"
+            priority
             height={363}
             width={693.63}
           />
@@ -220,6 +224,7 @@ export default function TimelinePage() {
                 <Image
                   src="/imgs/mockups/hive_mockups/clay_banks_japan.jpg"
                   alt="clay_banks_japan"
+                  priority
                   fill
                   className="object-cover parallax-img will-change-transform scale-120 parallax-display"
                 />
@@ -243,6 +248,7 @@ export default function TimelinePage() {
                   className="rounded-lg px-8 absolute left-1/2 top-1/2 -translate-x-[50%] -translate-y-[50%]"
                   autoPlay
                   muted
+                  preload="auto"
                   loop
                   playsInline
                 >
@@ -272,6 +278,7 @@ export default function TimelinePage() {
               <Image
                 src="/imgs/mockups/hive_mockups/isometric_perspective_hive.png"
                 alt="isometric_perspective_hive"
+                priority
                 fill
                 className="object-cover parallax-img will-change-transform scale-120 parallax-display"
               />
@@ -305,6 +312,7 @@ export default function TimelinePage() {
                 <Image
                   src="/imgs/mockups/hive_mockups/macbook_whitebase.svg"
                   alt="macbook_whitebase"
+                  priority
                   width={920}
                   height={480}
                   className="relative h-full z-10"
@@ -313,6 +321,7 @@ export default function TimelinePage() {
                 <video
                   className="rounded-lg w-[77%] absolute left-1/2 top-1/2 -translate-x-[50%] -translate-y-[55%]"
                   autoPlay
+                  preload="auto"
                   muted
                   loop
                   playsInline
@@ -351,6 +360,15 @@ export default function TimelinePage() {
             </div>
           </div>
       </div>
+
+       {/* Back button - fixed to right edge */}
+          <button
+            onClick={() => router.push("/")}
+            className={`${bringbold.className} fixed top-0 right-0 z-[300] h-screen w-5 p-2 bg-[#DF4346] text-[#FFFFFF] text-[20px] tracking-widest opacity-20 hover:opacity-100 transition-opacity duration-200 cursor-pointer flex items-center justify-center`}
+            style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
+          >
+            [BACK]
+          </button>
 
       {/* Grain overlay */}
       <div
