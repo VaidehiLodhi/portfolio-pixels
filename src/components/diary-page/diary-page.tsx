@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import { LinkPanel } from "./link-panel";
 import { CattoFigurine } from "./catto-figurine";
+import Image from "next/image";
 
 export const belmonte = localFont({
   src: "../../../public/fonts/belmonte_ballpoint.otf",
@@ -32,10 +33,11 @@ export const DiaryPage = () => {
               My name is Vaidehi Lodhi, and I am a developer.
             </p>
             <p className="text-xs md:text-xl pl-2 md:pl-4">
-              I love designing digital experiences that blend different tech and
-              mediums.
+              I love designing digital experiences that blend different tech and mediums.
+              I saw how powerful design could be through cinema. How every design choice contributed to crafting an experience.
             </p>
             <p className="text-xs md:text-xl pl-2 md:pl-4">
+              Then collaborating with peers, ML and AI opened up a new territory for me, which i love to tread.
               Currently, focusing on going as deep into machine learning as I
               can get.
             </p>
@@ -44,10 +46,12 @@ export const DiaryPage = () => {
               rigidity of age hehe.
             </p>
           </div>
-          <img
+          <Image
             src="/imgs/cat_with_wool.svg"
             alt="cat with wool ofc"
-            className="mt-auto max-w-full h-auto pl-2 py-3"
+            height={292}
+            width={387}
+            className="absolute left-0 bottom-0 max-w-full h-auto pl-2 py-3"
           />
         </div>
         <div className="col-span-2 flex flex-col min-h-0 h-full">

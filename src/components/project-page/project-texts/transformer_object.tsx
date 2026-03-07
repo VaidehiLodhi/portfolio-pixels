@@ -10,7 +10,7 @@ export const transformerObject: blockType[] = [
     activeState: "#ECFDF8",
     fontActiveState: "#00CD95",
     overview: "/arch",
-    githublnk: "https://github.com/your-username/rag-chat-interface",
+    githublnk: "https://github.com/VaidehiLodhi/Transformer_generation",
   },
   {
     title: "What is it?",
@@ -69,8 +69,8 @@ export const transformerObject: blockType[] = [
     title: "GitHub",
     content: [
       {
-        type: "paragraph",
-        text: "https://github.com/your-username/transformer-from-scratch",
+        type: "link",
+        text: "https://github.com/VaidehiLodhi/Transformer_generation",
       },
     ],
   },

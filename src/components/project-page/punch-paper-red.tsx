@@ -53,15 +53,16 @@ export const PunchPaperRed = React.forwardRef<
       id: "vaibee_inc",
       name: "Vaibee.inc",
       title: "VAIBEE.INC * A LABOUR OF LOVE * VAIBEE.INC * A LABOUR OF LOVE *",
-      activeState: "#F8EAFF",
-      fontActiveState: "#2B0C7D",
+      activeState: "#FFF1F1",
+      fontActiveState: "#FF6464",
+      
     },
     {
       id: "rag_chat_interface",
       name: "RAG Chat Pipeline",
       title: "CHAT PIPELINE * RAG * CHAT PIPELINE * RAG *",
-      activeState: "#FFF1F1",
-      fontActiveState: "#FF6464",
+      activeState: "#F8EAFF",
+      fontActiveState: "#2B0C7D",
     },
     {
       id: "transformer",
@@ -118,7 +119,7 @@ export const PunchPaperRed = React.forwardRef<
                   { "--active-bg": project.activeState } as React.CSSProperties
                 }
                 value={project.id}
-                className="h-full"
+                className="h-full cursor-pointer"
               >
                 {project.name}
               </SidebarTabsTrigger>
@@ -134,7 +135,7 @@ export const PunchPaperRed = React.forwardRef<
               >
                 <SidebarCard
                   style={{ backgroundColor: project.activeState }}
-                  className="h-full rounded-none"
+                  className="h-full rounded-none "
                 >
                   <CardHeader className="p-0 pt-2">
                     <TextScrollMarquee

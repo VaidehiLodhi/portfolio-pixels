@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import localFont from "next/font/local";
+import { useRouter } from "next/navigation";
 
 export const departure_mono = localFont({
   src: "../../../public/fonts/departure-mono.woff2",
@@ -24,6 +25,8 @@ export default function TimelinePageTransformer() {
   const currentScrollRef = useRef(0);
   const targetScrollRef = useRef(0);
   const rafRef = useRef<number | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -140,7 +143,6 @@ export default function TimelinePageTransformer() {
   return (
     <div
       ref={containerRef}
-      className="p-6"
       style={{
         width: "100vw",
         height: "100vh",
@@ -177,7 +179,7 @@ export default function TimelinePageTransformer() {
       {/* Horizontal track */}
       <div
         ref={trackRef}
-        className={`${departure_mono.className} flex justify-center items-center gap-x-8 text-[#332525] p-6 bg-[#F5E1CD]`}
+        className={`${departure_mono.className} flex justify-center items-center  text-[#332525] px-10 bg-[#F5E1CD]`}
         style={{
           height: "100vh",
           willChange: "transform",
@@ -214,6 +216,7 @@ export default function TimelinePageTransformer() {
           <div className="relative w-200 h-125 overflow-hidden">
             <Image
               src="/imgs/mockups/transformer_mockups/monet.jpg"
+              priority
               alt="monet"
               fill
               className="object-cover parallax-img will-change-transform scale-120 parallax-display"
@@ -221,6 +224,7 @@ export default function TimelinePageTransformer() {
             <div className="flex flex-col w-full items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
               <Image
                 src="/imgs/mockups/transformer_mockups/transformer_arch_greeb.png"
+                priority
                 alt="screen 1"
                 height={657}
                 width={462}
@@ -289,13 +293,41 @@ export default function TimelinePageTransformer() {
         {/* 3rd panel */}
         <div className="panel w-full min-w-screen h-screen bg-[#F5E1CD] flex items-center justify-center">
           <div className="flex items-center justify-center gap-x-8">
-            <div className="relative w-200 h-125 overflow-hidden">
+            <div className="relative w-200 h-150 ">
               <Image
-                src="/imgs/mockups/rag_chat_mockups/soliman_cifuentes_tree.jpg"
-                alt="soliman_tree"
+                src="/imgs/mockups/transformer_mockups/transformer_layers.png"
+                alt="transformer_layers"
+                priority
                 fill
-                className="object-cover parallax-img will-change-transform scale-120 parallax-display"
+                className="object-fill"
               />
+            </div>
+
+            <div className="flex text-[14px] flex-col items-center justify-center gap-x-4">
+              <p>[THE MAP]</p>
+              <div className="flex flex-col items-center justify-center gap-x-1">
+                <p>#5</p>
+                <p>
+                  For each attention head, the input is  <br />
+                  linearly projected into three separate  <br />
+                  spaces — queries, keys, and values —  <br />
+                  using weight matrices without bias terms, <br />
+                  allowing the model to learn what to <br/>
+                  search for, what to expose, and what to aggregate. <br />
+                </p>
+              </div>
+              <div className="flex flex-col items-center justify-center gap-x-1">
+                <p>#6</p>
+                <p>
+                  Each Transformer block first applies  <br />
+                  multi-head self-attention (allowing tokens  <br />
+                  to communicate with each other), <br/>
+                  followed by a position-wise <br />
+                  feedforward network (allowing each token to <br />
+                  independently process the gathered information). <br />
+                  AND WE R GOOD TO GO!! <br />
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -363,6 +395,15 @@ export default function TimelinePageTransformer() {
           </div>
         </div>
       </div>
+
+      {/* Back button - fixed to right edge */}
+      <button
+        onClick={() => router.push("/")}
+        className={`${bringbold.className} fixed top-0 right-0 z-[300] h-screen w-5 p-2 bg-[#DF4346] text-[#FFFFFF] text-[20px] tracking-widest opacity-20 hover:opacity-100 transition-opacity duration-200 cursor-pointer flex items-center justify-center`}
+        style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
+      >
+        [BACK]
+      </button>
 
       {/* Grain overlay */}
       <div

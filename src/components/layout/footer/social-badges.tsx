@@ -5,28 +5,28 @@ export const SocialBadges = () => {
   const socials = [
     {
       name: "linkedin",
-      link: "https://linkedin.com/in/yourprofile",
+      link: "https://www.linkedin.com/in/vaidehi-lodhi/",
       src: "/imgs/footer/logos/linkeding.svg",
       height: 20,
       width: 20,
     },
     {
       name: "x",
-      link: "https://x.com/yourhandle",
+      link: "https://x.com/vaibee_on_tulip",
       src: "/imgs/footer/logos/xing.svg",
       height: 20,
       width: 20,
     },
     {
       name: "github",
-      link: "https://github.com/yourusername",
+      link: "https://github.com/VaidehiLodhi",
       src: "/imgs/footer/logos/githubing.svg",
       height: 20,
       width: 20,
     },
     {
       name: "mail",
-      link: "mailto:your@email.com",
+      link: "mailto:vaidehixoxo@gmail.com",
       src: "/imgs/footer/logos/mailing.svg",
       height: 13,
       width: 20,

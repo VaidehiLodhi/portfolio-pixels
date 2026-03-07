@@ -9,7 +9,7 @@ export const hiveObject: blockType[] = [
     activeState: "#F5F4C7",
     fontActiveState: "#FAC206",
     overview: "/hive",
-    githublnk: "https://github.com/your-username/rag-chat-interface",
+    githublnk: "https://github.com/VaidehiLodhi/Hive",
   },
   {
     title: "What is it?",
@@ -72,8 +72,17 @@ export const hiveObject: blockType[] = [
     title: "GitHub",
     content: [
       {
-        type: "paragraph",
-        text: "https://github.com/your-username/hive",
+        type: "link",
+        text: "https://github.com/VaidehiLodhi/Hive",
+      },
+    ],
+  },
+  {
+    title: "Deployed",
+    content: [
+      {
+        type: "link",
+        text: "https://hive-together.vercel.app",
       },
     ],
   },

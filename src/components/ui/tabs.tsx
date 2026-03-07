@@ -61,7 +61,7 @@ function SidebarTabsTrigger({
       data-slot="tabs-trigger"
       className={cn(
         // Copy the base styles you want to keep from original TabsTrigger
-        `${magnat_test_light.className}`,
+        `${magnat_test_light.className} cursor-pointer`,
         "data-[state=active]:bg-(--active-bg)",
         "focus-visible:ring-ring/50 focus-visible:outline-none",
         "text-black border border-l-0 border-r-0 border-t-0 border-black",

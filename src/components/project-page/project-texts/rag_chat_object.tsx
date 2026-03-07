@@ -7,10 +7,10 @@ export const ragChatInterface: blockType[] = [
     name: "RAG Chat Interface",
     title:
       "RAG Chat Interface * Reliable Knowledge * RAG Chat Interface * Reliable Knowledge *",
-    activeState: "#FFF1F1",
-    fontActiveState: "#FF6464",
+    activeState: "#F8EAFF",
+    fontActiveState: "#2B0C7D",
     overview: "/ragChat",
-    githublnk: "https://github.com/your-username/rag-chat-interface"
+    githublnk: "https://github.com/VaidehiLodhi/alibi_legal_assist"
   },
   {
     title: "What is it?",
@@ -67,8 +67,8 @@ export const ragChatInterface: blockType[] = [
     title: "GitHub",
     content: [
       {
-        type: "paragraph",
-        text: "https://github.com/your-username/rag-chat-interface",
+        type: "link",
+        text: "https://github.com/VaidehiLodhi/alibi_legal_assist",
       },
     ],
   },

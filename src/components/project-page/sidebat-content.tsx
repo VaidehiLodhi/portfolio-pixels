@@ -27,7 +27,9 @@ export type contentBlockType =
       type: "list";
       ordered?: boolean;
       items: string[];
-    };
+    }
+
+  | { type: "link"; text: string } ;
 
 export type Section = {
   title: string;
@@ -70,6 +72,21 @@ export function SidebarCardContent({ blocks }: { blocks: blockType[] }) {
                 );
               }
 
+              if (contentBlock.type === "link") {
+                return (
+                  <a
+                    key={j}
+                    href={contentBlock.text}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm pl-2 hover:underline opacity-70 hover:opacity-100 transition-opacity"
+                    style={{ color: textColor }}
+                  >
+                    {contentBlock.text}
+                  </a>
+                );
+              }
+
               if (contentBlock.type === "list") {
                 const ListTag = contentBlock.ordered ? "ol" : "ul";
                 return (
@@ -87,6 +104,7 @@ export function SidebarCardContent({ blocks }: { blocks: blockType[] }) {
                   </ListTag>
                 );
               }
+              
 
               return null;
             })}

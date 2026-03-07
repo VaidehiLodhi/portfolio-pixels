@@ -7,6 +7,9 @@ import localFont from "next/font/local";
 import { belmonte } from "../punch-white/skillset-button";
 import { four_b_pencil } from "../project-page/punch-paper-red";
 import { magnat_test_regular } from "../punch-white/white-content";
+import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
+import { nok } from "../char-per-char";
 
 export const departure_mono = localFont({
   src: "../../../public/fonts/departure-mono.woff2",
@@ -33,6 +36,8 @@ export default function TimelinePageVaibee() {
   const currentScrollRef = useRef(0);
   const targetScrollRef = useRef(0);
   const rafRef = useRef<number | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -149,11 +154,10 @@ export default function TimelinePageVaibee() {
   return (
     <div
       ref={containerRef}
-      className="p-6"
       style={{
         width: "100vw",
         height: "100vh",
-        overflow: "hidden",
+        overflow: "clip",
         background: "#0e0d09",
         position: "relative",
       }}
@@ -182,12 +186,13 @@ export default function TimelinePageVaibee() {
       </div>
 
       {/* Nav */}
+        
     
 
       {/* Horizontal track */}
       <div
         ref={trackRef}
-        className={`${departure_mono.className} flex justify-center items-center gap-y-8 text-[#332525] p-6 bg-[#F5E1CD]`}
+        className={`${departure_mono.className} flex justify-center items-center shrink-0  text-[#332525]  bg-[#F5E1CD]`}
         style={{
           height: "100vh",
           willChange: "transform",
@@ -196,11 +201,11 @@ export default function TimelinePageVaibee() {
           left: 0,
         }}
       >
-        <div className="panel min-w-screen h-screen bg-[#F5E1CD] flex items-center justify-center gap-x-10">
+        <div className="panel min-w-screen h-screen shrink-0 bg-[#F5E1CD] flex items-center justify-center gap-x-20 px-40 ml-70">
           <div className="flex flex-col items-start justify-center gap-y-2">
             <p className="text-[14px] uppercase">[OVERVIEW]</p>
             <div
-              className={` ${bringbold.className} text-4xl flex flex-col uppercase`}
+              className={` ${bringbold.className} text-3xl flex flex-col uppercase`}
             >
               <p>
                 VAIBEE.INC, <br/>
@@ -224,7 +229,7 @@ export default function TimelinePageVaibee() {
               </p>
             </div>
           </div>
-            <div className={`${futura_bold.className} relative bg-[#F9F0EE] py-10 rounded-[10px] w-[800px] h-[600px] flex flex-col items-center text-4xl text-[#332525] overflow-hidden`}>
+            <div className={`${futura_bold.className} relative bg-[#F9F0EE] py-10 rounded-[10px] isolate w-[800px] h-[600px] flex flex-col items-center text-4xl text-[#332525] overflow-hidden`}>
                 <div className="relative my-auto flex items-center justify-center gap-x-10 whitespace-nowrap text-transparent [-webkit-text-stroke:1px_#332525]">
                     <p>WHAT WILL YOUR VERSE BE?</p>
                     <p>WHAT WILL YOUR VERSE BE?</p>
@@ -254,7 +259,7 @@ export default function TimelinePageVaibee() {
         </div>
 
         {/* 2nd panel */}
-        <div className="panel min-w-screen h-screen bg-[#F5E1CD] flex items-center justify-center">
+        <div className="panel min-w-screen h-screen shrink-0 bg-[#F5E1CD] flex items-center justify-center gap-x-20 px-40">
           <div className="flex items-center justify-center gap-x-10">
             <div className="relative overflow-hidden w-93 h-152">
               <Image
@@ -294,7 +299,7 @@ export default function TimelinePageVaibee() {
         </div>
 
         {/* 3rd panel */}
-        <div className="panel min-w-screen h-screen bg-[#F5E1CD] flex items-center justify-center">
+        <div className="panel min-w-screen h-screen shrink-0 bg-[#F5E1CD] flex items-center justify-around gap-x-20 px-40">
           <div className="flex items-center justify-center gap-x-10">
             <div className="relative overflow-hidden w-125 h-162.5">
               <Image
@@ -327,54 +332,65 @@ export default function TimelinePageVaibee() {
           </div>
         </div>
         {/* 4th panel */}
-        <div className="panel min-w-screen h-screen bg-[#F5E1CD] flex items-center justify-center gap-x-4">
-          <div className="flex items-center justify-center gap-x-10">
-              <div className="flex relative w-200 h-125 overflow-hidden">
-                <div className="flex items-center justify-start">
-                  <video
-                    className="rounded-lg px-8"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                  >
-                    <source
-                      src="/imgs/mockups/vaibee_mockups/videos/vaibee_pixel_panels_rewrap.mp4"
-                      type="video/mp4"
-                    />
-                  </video>
-                </div>
-                <div className="flex items-center justify-end">
-                  <video
-                    className="rounded-lg px-8 absolute bottom-0 right-0"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                  >
-                    <source
-                      src="/imgs/mockups/vaibee_mockups/videos/vaibee_stack_animates_rewrap.mp4"
-                      type="video/mp4"
-                    />
-                  </video>
-                </div>
-              </div>
-              <div className="flex flex-col gap-y-4 self-end text-[14px]">
-                <p>
-                  Thus, marks the phase 1 of <br/>
-                  my first portfolio entry. <br/>
-                  This has still a long way to go, <br/>
-                  in terms of responsiveness. <br/>
-                  And I'll be working on it  <br/>
-                  throughout, but i wanted to <br/>
-                  put this out, because someone special said <br/>
-                  "just make it exist", <br/>
-                  "u can make it good later!" <br/>
-                </p>
-              </div>
+        <div className="panel min-w-screen h-screen shrink-0 bg-[#F5E1CD] flex items-center justify-center gap-x-20 px-40">
+          <div className="grid grid-cols-2 grid-rows-2 gap-4 w-[800px] h-[500px]">
+            
+            {/* Top-left: empty */}
+            <div className={`${nok.className} text-[80px] text-[#FAB5C5] rounded-[10px] flex items-center justify-center`}>
+              <div>
+                VAIBEE.INC
+              </div>  
             </div>
+
+            {/* Top-right: video 1 */}
+            <div className="rounded-[10px] overflow-hidden">
+              <video className="w-full h-full object-cover" autoPlay muted loop playsInline>
+                <source src="/imgs/mockups/vaibee_mockups/videos/vaibee_pixel_panels_rewrap.mp4" type="video/mp4" />
+              </video>
+            </div>
+
+            {/* Bottom-left: video 2 */}
+            <div className="rounded-[10px] overflow-hidden">
+              <video className="w-full h-full object-cover" autoPlay muted loop playsInline>
+                <source src="/imgs/mockups/vaibee_mockups/videos/vaibee_stack_animates_rewrap.mp4" type="video/mp4" />
+              </video>
+            </div>
+
+            {/* Bottom-right: empty */}
+            <div className={`${nok.className} text-[80px] text-[#FAB5C5] rounded-[10px] flex items-center justify-center`}>
+              <div>
+                VAIBEE.INC
+              </div>  
+            </div>
+
           </div>
+
+          {/* Text beside the grid */}
+          <div className="flex flex-col gap-y-4 self-center text-[14px]">
+            <p>
+              Thus, marks the phase 1 of <br/>
+              my first portfolio entry. <br/>
+              This has still a long way to go, <br/>
+              in terms of responsiveness. <br/>
+              And I'll be working on it <br/>
+              throughout, but i wanted to <br/>
+              put this out, because someone special said <br/>
+              "just make it exist", <br/>
+              "u can make it good later!" <br/>
+            </p>
+          </div>
+        </div>
+        
       </div>
+
+      {/* Back button - fixed to right edge */}
+    <button
+      onClick={() => router.push("/")}
+      className={`${bringbold.className} fixed top-0 right-0 z-[300] h-screen w-5 p-2 bg-[#DF4346] text-[#FFFFFF] text-[20px] tracking-widest opacity-20 hover:opacity-100 transition-opacity duration-200 cursor-pointer flex items-center justify-center`}
+      style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
+    >
+      [BACK]
+    </button>
 
       {/* Grain overlay */}
       <div
